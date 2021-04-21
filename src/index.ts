@@ -82,7 +82,7 @@ function search<T, K extends Orderable>(node: Node<T>, searchKey: K, getKey: Get
 /**
  *
  */
-export class Tree<T, K extends Orderable> {
+export default class Tree<T, K extends Orderable> {
 
     private root: Node<T> | null = null
 
@@ -104,6 +104,9 @@ export class Tree<T, K extends Orderable> {
     public forEach(fn: (element: T) => void): void {
         this.root && forEach(this.root, fn)
     }
+
+    // Research: Reductions in binary search trees
+    // https://core.ac.uk/download/pdf/81125203.pdf
 
     public foldLeft<U>(fn: (acc: U, curr: T) => U, seed: U): U {
         return seed // Todo...
@@ -135,20 +138,3 @@ class Node<T> {
     constructor(public readonly val: T) {
     }
 }
-
-
-
-
-
-
-// ------------------------------------------------------------------------
-//      Test type checks
-// ------------------------------------------------------------------------
-
-interface Foo {
-    id: number
-}
-
-const myTree = new Tree<Foo, number>((foo) => foo.id)
-myTree.insert({ id: 42 })
-myTree.search(42)

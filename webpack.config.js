@@ -10,15 +10,15 @@ module.exports = {
         })]
     },
     entry: {
-        "package-name": "./src/index.ts",
-        "package-name.min": "./src/index.ts",
+        "avl-tree": "./src/index.ts",
+        "avl-tree.min": "./src/index.ts",
     },
     output: {
         path: resolve(__dirname, 'umd'),
         filename: '[name].js',
         library: {
-            name: 'PackageName',
-            type: 'var',
+            name: 'AvlTree',
+            type: 'umd',
             export: 'default',
         },
         libraryTarget: 'umd',

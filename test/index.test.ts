@@ -1,4 +1,4 @@
-describe('package-name', () => {
+describe('avl-tree', () => {
     test('works', () => {
 
     })
