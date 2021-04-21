@@ -46,6 +46,9 @@ function forEach<T>(node: Node<T>, fn: (val: T) => void): void {
     node.rgt && forEach(node.rgt, fn)
 }
 
+// Research: Reductions in binary search trees
+// https://core.ac.uk/download/pdf/81125203.pdf
+
 /**
  * Folds (reduces) the given node's subtree left-to-right using in-order traversal.
  */
@@ -105,15 +108,12 @@ export default class Tree<T, K extends Orderable> {
         this.root && forEach(this.root, fn)
     }
 
-    // Research: Reductions in binary search trees
-    // https://core.ac.uk/download/pdf/81125203.pdf
-
     public foldLeft<U>(fn: (acc: U, curr: T) => U, seed: U): U {
-        return seed // Todo...
+        return this.root ? foldLeft(this.root, fn, seed) : seed
     }
 
     public foldRight<U>(fn: (acc: U, curr: T) => U, seed: U): U {
-        return seed // Todo...
+        return this.root ? foldRight(this.root, fn, seed) : seed
     }
 
     public insert(value: T): void {
