@@ -7,10 +7,31 @@ enum Ordering {
 type Orderable = string | number
 type GetKey<T, K extends Orderable> = (element: T) => K
 
+enum BalanceCase {
+    LL,
+    LR,
+    RL,
+    RR,
+}
 
 // ------------------------------------------------------------------------
 //      Functions
 // ------------------------------------------------------------------------
+
+/**
+ * Returns the height of given node or zero if the node is `null`.
+ */
+function nodeHeight(node: Node | null): number {
+    return node?.height ?? 0
+}
+
+/**
+ * Returns the given node's balance: the relationship between the heights
+ * of its left and right subtrees. Returns zero if the node is `null`.
+ */
+function nodeBalance(node: Node | null): number {
+    return node ? nodeHeight(node.rgt) - nodeHeight(node.lft) : 0
+}
 
 /**
  * Takes two values of type `K extends Orderable` and returns their ordering.
@@ -24,26 +45,30 @@ function scalarCompare<K extends Orderable>(ka: K, kb: K): Ordering {
  * Returns the node within the subtree of given node containing the value that ranks lowest.
  * Returns the given node itself if it has no children.
  */
-function min<T>(node: Node<T>): Node<T> {
-    return node.lft ? min(node.lft) : node
+function min<T>(node: Node<T> | null): T | null {
+    return node === null ? null : min(node.lft) ?? node.val
 }
 
 /**
- * Returns the node within the subtree of given node containing the value that ranks highest.
- * Returns the given node itself if it has no children.
+ * Returns the value if the node within the subtree of given node containing the value that ranks highest.
+ * Returns the value of the given node itself if it has no children.
  */
-function max<T>(node: Node<T>): Node<T> {
-    return node.rgt ? max(node.rgt) : node
+function max<T>(node: Node<T> | null): T | null {
+    return node === null ? null : max(node.rgt) ?? node.val
 }
 
 /**
  * Performs in-order traversal of the given node's subtree, calling the given `fn` for each
  * contained value.
  */
-function forEach<T>(node: Node<T>, fn: (val: T) => void): void {
-    node.lft && forEach(node.lft, fn)
+function forEach<T>(node: Node<T> | null, fn: (val: T) => void): void {
+    if (node === null) {
+        return
+    }
+
+    forEach(node.lft, fn)
     fn(node.val)
-    node.rgt && forEach(node.rgt, fn)
+    forEach(node.rgt, fn)
 }
 
 /**
@@ -76,24 +101,126 @@ function foldRight<T, U>(node: Node<T> | null, fn: (acc: U, curr: T) => U, seed:
  * Search a value by a given `searchKey`, matching against keys of node values. Uses the
  * given `getKey` function to extract keys (orderable values) from node values.
  */
-function search<T, K extends Orderable>(node: Node<T>, searchKey: K, getKey: GetKey<T, K>): T | null {
+function search<T, K extends Orderable>(node: Node<T> | null, searchKey: K, getKey: GetKey<T, K>): T | null {
+    if (node === null) {
+        return null
+    }
+
     switch (scalarCompare(searchKey, getKey(node.val))) {
         case Ordering.LT:
-            return node.lft && search(node.lft, searchKey, getKey)
+            return search(node.lft, searchKey, getKey)
         case Ordering.EQ:
             return node.val
         case Ordering.GT:
-            return node.rgt && search(node.rgt, searchKey, getKey)
+            return search(node.rgt, searchKey, getKey)
     }
+}
+
+/**
+ *
+ */
+function insert<T, K extends Orderable>(value: T, node: Node<T> | null, getKey: GetKey<T, K>): Node<T> {
+
+    if (node === null) {
+		return new Node(value)
+	}
+
+    switch (scalarCompare(getKey(value), getKey(node.val))) {
+        case Ordering.LT:
+            node.lft = insert(value, node.lft, getKey)
+            break
+
+        case Ordering.GT:
+            node.rgt = insert(value, node.rgt, getKey)
+            break
+    }
+
+	node.height = 1 + Math.max(
+        nodeHeight(node.lft),
+        nodeHeight(node.rgt),
+    )
+
+    // https://www.geeksforgeeks.org/avl-tree-set-1-insertion/
+	if (nodeBalance(node) < -1) {
+		var subLeftDirection = scalarCompare(getKey(value), getKey(node.lft!.val))
+
+        if (subLeftDirection < 0) {
+
+            // Left - Left case
+            //          z                                      y
+            //         / \                                   /   \
+            //        y   T4      Right Rotate (z)          x      z
+            //       / \          - - - - - - - - ->      /  \    /  \
+            //      x   T3                               T1  T2  T3  T4
+            //     / \
+            //   T1   T2
+			return rotateRight(node)
+
+		} else if (subLeftDirection > 0) {
+
+            // Left - Right case
+            //      z                               z                           x
+            //     / \                            /   \                        /  \
+            //    y   T4  Left Rotate (y)        x    T4  Right Rotate(z)    y      z
+            //   / \      - - - - - - - - ->    /  \      - - - - - - - ->  / \    / \
+            // T1   x                          y    T3                    T1  T2 T3  T4
+            //     / \                        / \
+            //   T2   T3                    T1   T2
+			node.lft = rotateLeft(node.lft!)
+			return rotateRight(node)
+		}
+	}
+
+    if (nodeBalance(node) > 1) {
+		var subRightDirection = scalarCompare(getKey(value), getKey(node.rgt!.val))
+		if (subRightDirection > 0) {
+
+            // Right - Right case
+            //      z                                y
+            //     /  \                            /   \
+            //    T1   y     Left Rotate(z)       z      x
+            //        /  \   - - - - - - - ->    / \    / \
+            //       T2   x                     T1  T2 T3  T4
+            //           / \
+            //         T3  T4
+			return rotateLeft(node)
+
+		} else if (subRightDirection < 0) {
+
+            // Right - Left case
+            //      z                            z                            x
+            //     / \                          / \                          /  \
+            //   T1   y   Right Rotate (y)    T1   x      Left Rotate(z)   z      y
+            //       / \  - - - - - - - - ->     /  \   - - - - - - - ->  / \    / \
+            //      x   T4                      T2   y                  T1  T2  T3  T4
+            //     / \                              /  \
+            //   T2   T3                           T3   T4
+			node.rgt = rotateRight(node.rgt!)
+			return rotateLeft(node)
+		}
+	}
+
+	return node
+}
+
+/**
+ * Performs a left rotation on the given node.
+ */
+function rotateLeft<T>(node: Node<T>): Node<T> {
+    return node // Todo ...
+}
+
+/**
+ * Performs a right rotation on the given node.
+ */
+function rotateRight<T>(node: Node<T>): Node<T> {
+    return node // Todo ...
 }
 
 // ------------------------------------------------------------------------
 //      Tree class wrapper
 // ------------------------------------------------------------------------
 
-/**
- *
- */
 export default class Tree<T, K extends Orderable> {
 
     private root: Node<T> | null = null
@@ -102,19 +229,19 @@ export default class Tree<T, K extends Orderable> {
     }
 
     public min(): T | null {
-        return this.root && min(this.root)?.val
+        return min(this.root)
     }
 
     public max(): T | null {
-        return this.root && max(this.root)?.val
+        return max(this.root)
     }
 
     public search(key: K): T | null {
-        return this.root && search(this.root, key, this.getKey)
+        return search(this.root, key, this.getKey)
     }
 
     public forEach(fn: (element: T) => void): void {
-        this.root && forEach(this.root, fn)
+        forEach(this.root, fn)
     }
 
     public foldLeft<U>(fn: (acc: U, curr: T) => U, seed: U): U {
@@ -125,8 +252,13 @@ export default class Tree<T, K extends Orderable> {
         return foldRight(this.root, fn, seed)
     }
 
+    // Great video: https://www.youtube.com/watch?v=TbvhGcf6UJU
+
     public insert(value: T): void {
-        const node = new Node(value)
+        this.root = insert(value, this.root, this.getKey)
+    }
+
+    public delete(key: K): void {
         // Todo ...
     }
 
@@ -139,8 +271,8 @@ export default class Tree<T, K extends Orderable> {
 //      Node class
 // ------------------------------------------------------------------------
 
-class Node<T> {
-    public height: number
+class Node<T = unknown> {
+    public height: number = 1
     public lft: Node<T> | null = null
     public rgt: Node<T> | null = null
 
