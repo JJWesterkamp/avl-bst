@@ -141,60 +141,64 @@ function insert<T, K extends Orderable>(value: T, node: Node<T> | null, getKey: 
     )
 
     // https://www.geeksforgeeks.org/avl-tree-set-1-insertion/
-    if (nodeBalance(node) < -1) {
-        var subLeftDirection = scalarCompare(getKey(value), getKey(node.lft!.val))
 
-        if (subLeftDirection < 0) {
+    const balance = nodeBalance(node)
 
-            // Left - Left case
-            //          z                                      y
-            //         / \                                   /   \
-            //        y   T4      Right Rotate (z)          x      z
-            //       / \          - - - - - - - - ->      /  \    /  \
-            //      x   T3                               T1  T2  T3  T4
-            //     / \
-            //   T1   T2
+    // Left - (Left | Right) case
+    if (balance < -1) {
+        const subOrdering = scalarCompare(getKey(value), getKey(node.lft!.val))
+
+        // Left - Left case
+        //          z                                      y
+        //         / \                                   /   \
+        //        y   T4      Right Rotate (z)          x      z
+        //       / \          - - - - - - - - ->      /  \    /  \
+        //      x   T3                               T1  T2  T3  T4
+        //     / \
+        //   T1   T2
+        if (subOrdering === Ordering.LT) {
             return rotateRight(node)
+        }
 
-        } else if (subLeftDirection > 0) {
-
-            // Left - Right case
-            //      z                               z                           x
-            //     / \                            /   \                        /  \
-            //    y   T4  Left Rotate (y)        x    T4  Right Rotate(z)    y      z
-            //   / \      - - - - - - - - ->    /  \      - - - - - - - ->  / \    / \
-            // T1   x                          y    T3                    T1  T2 T3  T4
-            //     / \                        / \
-            //   T2   T3                    T1   T2
+        // Left - Right case
+        //      z                               z                           x
+        //     / \                            /   \                        /  \
+        //    y   T4  Left Rotate (y)        x    T4  Right Rotate(z)    y      z
+        //   / \      - - - - - - - - ->    /  \      - - - - - - - ->  / \    / \
+        // T1   x                          y    T3                    T1  T2 T3  T4
+        //     / \                        / \
+        //   T2   T3                    T1   T2
+        if (subOrdering === Ordering.GT) {
             node.lft = rotateLeft(node.lft!)
             return rotateRight(node)
         }
     }
 
-    if (nodeBalance(node) > 1) {
-        var subRightDirection = scalarCompare(getKey(value), getKey(node.rgt!.val))
-        if (subRightDirection > 0) {
+    // Right - (Left | Right) case
+    if (balance > 1) {
+        const subOrdering = scalarCompare(getKey(value), getKey(node.rgt!.val))
 
-            // Right - Right case
-            //      z                                y
-            //     /  \                            /   \
-            //    T1   y     Left Rotate(z)       z      x
-            //        /  \   - - - - - - - ->    / \    / \
-            //       T2   x                     T1  T2 T3  T4
-            //           / \
-            //         T3  T4
+        // Right - Right case
+        //      z                                y
+        //     /  \                            /   \
+        //    T1   y     Left Rotate(z)       z      x
+        //        /  \   - - - - - - - ->    / \    / \
+        //       T2   x                     T1  T2 T3  T4
+        //           / \
+        //         T3  T4
+        if (subOrdering === Ordering.GT) {
             return rotateLeft(node)
+        }
 
-        } else if (subRightDirection < 0) {
-
-            // Right - Left case
-            //      z                            z                            x
-            //     / \                          / \                          /  \
-            //   T1   y   Right Rotate (y)    T1   x      Left Rotate(z)   z      y
-            //       / \  - - - - - - - - ->     /  \   - - - - - - - ->  / \    / \
-            //      x   T4                      T2   y                  T1  T2  T3  T4
-            //     / \                              /  \
-            //   T2   T3                           T3   T4
+        // Right - Left case
+        //      z                            z                            x
+        //     / \                          / \                          /  \
+        //   T1   y   Right Rotate (y)    T1   x      Left Rotate(z)   z      y
+        //       / \  - - - - - - - - ->     /  \   - - - - - - - ->  / \    / \
+        //      x   T4                      T2   y                  T1  T2  T3  T4
+        //     / \                              /  \
+        //   T2   T3                           T3   T4
+        if (subOrdering === Ordering.LT) {
             node.rgt = rotateRight(node.rgt!)
             return rotateLeft(node)
         }
