@@ -46,21 +46,30 @@ function forEach<T>(node: Node<T>, fn: (val: T) => void): void {
     node.rgt && forEach(node.rgt, fn)
 }
 
-// Research: Reductions in binary search trees
-// https://core.ac.uk/download/pdf/81125203.pdf
-
 /**
  * Folds (reduces) the given node's subtree left-to-right using in-order traversal.
  */
-function foldLeft<T, U>(node: Node<T>, fn: (acc: U, curr: T) => U, seed: U): U {
-    return seed // Todo ...
+function foldLeft<T, U>(node: Node<T> | null, fn: (acc: U, curr: T) => U, seed: U): U {
+    if (node === null) {
+        return seed
+    }
+
+    seed = foldLeft(node.lft, fn, seed)
+    seed = fn(seed, node.val)
+    return foldLeft(node.rgt, fn, seed)
 }
 
 /**
  * Folds (reduces) the given node's subtree right-to-left using reversed in-order traversal.
  */
-function foldRight<T, U>(node: Node<T>, fn: (acc: U, curr: T) => U, seed: U): U {
-    return seed // Todo ...
+function foldRight<T, U>(node: Node<T> | null, fn: (acc: U, curr: T) => U, seed: U): U {
+    if (node === null) {
+        return seed
+    }
+
+    seed = foldRight(node.rgt, fn, seed)
+    seed = fn(seed, node.val)
+    return foldRight(node.lft, fn, seed)
 }
 
 /**
@@ -109,11 +118,11 @@ export default class Tree<T, K extends Orderable> {
     }
 
     public foldLeft<U>(fn: (acc: U, curr: T) => U, seed: U): U {
-        return this.root ? foldLeft(this.root, fn, seed) : seed
+        return foldLeft(this.root, fn, seed)
     }
 
     public foldRight<U>(fn: (acc: U, curr: T) => U, seed: U): U {
-        return this.root ? foldRight(this.root, fn, seed) : seed
+        return foldRight(this.root, fn, seed)
     }
 
     public insert(value: T): void {
