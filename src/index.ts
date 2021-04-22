@@ -122,8 +122,8 @@ function search<T, K extends Orderable>(node: Node<T> | null, searchKey: K, getK
 function insert<T, K extends Orderable>(value: T, node: Node<T> | null, getKey: GetKey<T, K>): Node<T> {
 
     if (node === null) {
-		return new Node(value)
-	}
+        return new Node(value)
+    }
 
     switch (scalarCompare(getKey(value), getKey(node.val))) {
         case Ordering.LT:
@@ -135,14 +135,14 @@ function insert<T, K extends Orderable>(value: T, node: Node<T> | null, getKey: 
             break
     }
 
-	node.height = 1 + Math.max(
+    node.height = 1 + Math.max(
         nodeHeight(node.lft),
         nodeHeight(node.rgt),
     )
 
     // https://www.geeksforgeeks.org/avl-tree-set-1-insertion/
-	if (nodeBalance(node) < -1) {
-		var subLeftDirection = scalarCompare(getKey(value), getKey(node.lft!.val))
+    if (nodeBalance(node) < -1) {
+        var subLeftDirection = scalarCompare(getKey(value), getKey(node.lft!.val))
 
         if (subLeftDirection < 0) {
 
@@ -154,9 +154,9 @@ function insert<T, K extends Orderable>(value: T, node: Node<T> | null, getKey: 
             //      x   T3                               T1  T2  T3  T4
             //     / \
             //   T1   T2
-			return rotateRight(node)
+            return rotateRight(node)
 
-		} else if (subLeftDirection > 0) {
+        } else if (subLeftDirection > 0) {
 
             // Left - Right case
             //      z                               z                           x
@@ -166,14 +166,14 @@ function insert<T, K extends Orderable>(value: T, node: Node<T> | null, getKey: 
             // T1   x                          y    T3                    T1  T2 T3  T4
             //     / \                        / \
             //   T2   T3                    T1   T2
-			node.lft = rotateLeft(node.lft!)
-			return rotateRight(node)
-		}
-	}
+            node.lft = rotateLeft(node.lft!)
+            return rotateRight(node)
+        }
+    }
 
     if (nodeBalance(node) > 1) {
-		var subRightDirection = scalarCompare(getKey(value), getKey(node.rgt!.val))
-		if (subRightDirection > 0) {
+        var subRightDirection = scalarCompare(getKey(value), getKey(node.rgt!.val))
+        if (subRightDirection > 0) {
 
             // Right - Right case
             //      z                                y
@@ -183,9 +183,9 @@ function insert<T, K extends Orderable>(value: T, node: Node<T> | null, getKey: 
             //       T2   x                     T1  T2 T3  T4
             //           / \
             //         T3  T4
-			return rotateLeft(node)
+            return rotateLeft(node)
 
-		} else if (subRightDirection < 0) {
+        } else if (subRightDirection < 0) {
 
             // Right - Left case
             //      z                            z                            x
@@ -195,12 +195,12 @@ function insert<T, K extends Orderable>(value: T, node: Node<T> | null, getKey: 
             //      x   T4                      T2   y                  T1  T2  T3  T4
             //     / \                              /  \
             //   T2   T3                           T3   T4
-			node.rgt = rotateRight(node.rgt!)
-			return rotateLeft(node)
-		}
-	}
+            node.rgt = rotateRight(node.rgt!)
+            return rotateLeft(node)
+        }
+    }
 
-	return node
+    return node
 }
 
 /**
