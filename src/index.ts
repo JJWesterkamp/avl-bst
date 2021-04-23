@@ -249,7 +249,7 @@ function rotateRight<T>(node: Node<T>): Node<T> {
 //      Tree class wrapper
 // ------------------------------------------------------------------------
 
-export default class Tree<T, K extends Orderable> {
+export default class AVLTree<T, K extends Orderable> {
 
     private root: Node<T> | null = null
 
