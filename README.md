@@ -5,8 +5,9 @@
 
 ## Resources used
 
-- https://www.youtube.com/watch?v=TbvhGcf6UJU
-- https://www.geeksforgeeks.org/avl-tree-set-1-insertion
+- [Youtube: Lecture - 12 AVL Trees](https://www.youtube.com/watch?v=TbvhGcf6UJU)
+- [AVL Tree | Set 1 (Insertion)](https://www.geeksforgeeks.org/avl-tree-set-1-insertion)
+- [Inorder Successor in Binary Search Tree](https://www.geeksforgeeks.org/inorder-successor-in-binary-search-tree/)
 
 ## Development / build
 

@@ -128,7 +128,8 @@ function search<T, K extends Orderable>(node: Node<T> | null, searchKey: K, getK
 }
 
 /**
- *
+ * Inserts a value into the tree of a givrn node. Additionally requires a getKey function to
+ * extract keys from nodes in the tree for comparison.
  */
 function insert<T, K extends Orderable>(value: T, node: Node<T> | null, getKey: GetKey<T, K>): Node<T> {
 
@@ -217,8 +218,12 @@ function insert<T, K extends Orderable>(value: T, node: Node<T> | null, getKey: 
  * Performs a left rotation on the given node.
  */
 function rotateLeft<T>(node: Node<T>): Node<T> {
-    const rightChild          = node.right!
-    const rightLeftGrandchild = node.right!.left
+    if (node.right === null) {
+        throw new Error('Cannot left-rotate a node without a right child')
+    }
+
+    const rightChild          = node.right
+    const rightLeftGrandchild = node.right.left
 
     rightChild.left = node
     node.right = rightLeftGrandchild
@@ -233,8 +238,12 @@ function rotateLeft<T>(node: Node<T>): Node<T> {
  * Performs a right rotation on the given node.
  */
 function rotateRight<T>(node: Node<T>): Node<T> {
-    const leftChild           = node.left!
-    const leftRightGrandchild = node.left!.right
+    if (node.left === null) {
+        throw new Error('Cannot right-rotate a node without a left child')
+    }
+
+    const leftChild           = node.left
+    const leftRightGrandchild = node.left.right
 
     leftChild.right = node
     node.left = leftRightGrandchild
