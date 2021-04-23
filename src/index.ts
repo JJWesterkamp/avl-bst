@@ -15,6 +15,67 @@ enum BalanceCase {
 }
 
 // ------------------------------------------------------------------------
+//      Node class
+// ------------------------------------------------------------------------
+
+class Node<T = unknown> {
+    public height: number = 1
+    public left: Node<T> | null = null
+    public right: Node<T> | null = null
+
+    constructor(public readonly value: T) {
+    }
+}
+
+// ------------------------------------------------------------------------
+//      Tree class
+// ------------------------------------------------------------------------
+
+export default class AVLTree<T, K extends Orderable> {
+
+    private root: Node<T> | null = null
+
+    constructor(private readonly getKey: GetKey<T, K>) {
+    }
+
+    public min(): T | null {
+        return min(this.root)
+    }
+
+    public max(): T | null {
+        return max(this.root)
+    }
+
+    public search(key: K): T | null {
+        return search(this.root, key, this.getKey)
+    }
+
+    public forEach(fn: (element: T) => void): void {
+        forEach(this.root, fn)
+    }
+
+    public foldLeft<U>(fn: (acc: U, curr: T) => U, seed: U): U {
+        return foldLeft(this.root, fn, seed)
+    }
+
+    public foldRight<U>(fn: (acc: U, curr: T) => U, seed: U): U {
+        return foldRight(this.root, fn, seed)
+    }
+
+    public insert(value: T): void {
+        this.root = insert(value, this.root, this.getKey)
+    }
+
+    public delete(key: K): void {
+        // Todo ...
+    }
+
+    private balance(): void {
+        // Todo ...
+    }
+}
+
+// ------------------------------------------------------------------------
 //      Functions
 // ------------------------------------------------------------------------
 
@@ -252,65 +313,4 @@ function rotateRight<T>(node: Node<T>): Node<T> {
     updateNodeHeight(leftChild)
 
     return leftChild
-}
-
-// ------------------------------------------------------------------------
-//      Tree class wrapper
-// ------------------------------------------------------------------------
-
-export default class AVLTree<T, K extends Orderable> {
-
-    private root: Node<T> | null = null
-
-    constructor(private readonly getKey: GetKey<T, K>) {
-    }
-
-    public min(): T | null {
-        return min(this.root)
-    }
-
-    public max(): T | null {
-        return max(this.root)
-    }
-
-    public search(key: K): T | null {
-        return search(this.root, key, this.getKey)
-    }
-
-    public forEach(fn: (element: T) => void): void {
-        forEach(this.root, fn)
-    }
-
-    public foldLeft<U>(fn: (acc: U, curr: T) => U, seed: U): U {
-        return foldLeft(this.root, fn, seed)
-    }
-
-    public foldRight<U>(fn: (acc: U, curr: T) => U, seed: U): U {
-        return foldRight(this.root, fn, seed)
-    }
-
-    public insert(value: T): void {
-        this.root = insert(value, this.root, this.getKey)
-    }
-
-    public delete(key: K): void {
-        // Todo ...
-    }
-
-    private balance(): void {
-        // Todo ...
-    }
-}
-
-// ------------------------------------------------------------------------
-//      Node class
-// ------------------------------------------------------------------------
-
-class Node<T = unknown> {
-    public height: number = 1
-    public left: Node<T> | null = null
-    public right: Node<T> | null = null
-
-    constructor(public readonly value: T) {
-    }
 }
