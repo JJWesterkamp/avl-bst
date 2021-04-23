@@ -220,13 +220,13 @@ function rotateLeft<T>(node: Node<T>): Node<T> {
     const rightChild          = node.right!
     const rightLeftGrandchild = node.right!.left
 
-	rightChild.left = node
-	node.right = rightLeftGrandchild
+    rightChild.left = node
+    node.right = rightLeftGrandchild
 
     updateNodeHeight(node)
     updateNodeHeight(rightChild)
 
-	return rightChild
+    return rightChild
 }
 
 /**
@@ -236,8 +236,8 @@ function rotateRight<T>(node: Node<T>): Node<T> {
     const leftChild           = node.left!
     const leftRightGrandchild = node.left!.right
 
-	leftChild.right = node
-	node.left = leftRightGrandchild
+    leftChild.right = node
+    node.left = leftRightGrandchild
 
     updateNodeHeight(node)
     updateNodeHeight(leftChild)
