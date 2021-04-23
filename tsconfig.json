@@ -12,7 +12,8 @@
         "strictNullChecks": true,
         "strictFunctionTypes": true,
         "declaration": true,
-        "outDir": "cjs"
+        "outDir": "cjs",
+        "preserveConstEnums": false
     },
     "include":[
         "src/**/*.ts"
