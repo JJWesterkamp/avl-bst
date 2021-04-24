@@ -66,6 +66,14 @@ export default class AVLTree<T, K extends Orderable> {
         return foldRight(this.root, fn, seed)
     }
 
+    public keys(): K[] {
+        return this.foldLeft((acc: K[], curr: T) => [...acc, this.getKey(curr)], [])
+    }
+
+    public toArray(): T[] {
+        return this.foldLeft((acc: T[], curr:T) => [...acc, curr], [])
+    }
+
     public insert(value: T): void {
         this.root = insert(value, this.getKey(value), this.root)
     }
