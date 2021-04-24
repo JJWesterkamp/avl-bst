@@ -1,13 +1,13 @@
-import type { INode, Orderable } from '../AVLTree'
+import type { Ord } from '../AVLTree'
 
-export class Node<T = unknown, K extends Orderable = Orderable> implements INode<T, K> {
+export class Node<K extends Ord = Ord, V = unknown> {
     public height: number = 1
-    public left: Node<T, K> | null = null
-    public right: Node<T, K> | null = null
+    public left: Node<K, V> | null = null
+    public right: Node<K, V> | null = null
 
     constructor(
-        public readonly value: T,
         public readonly key: K,
+        public readonly value: V,
     ) {
     }
 }

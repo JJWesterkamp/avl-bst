@@ -1,4 +1,4 @@
-import type { Orderable } from '../AVLTree'
+import type { Ord } from '../AVLTree'
 import { Node } from './Node'
 
 export const enum Ordering {
@@ -19,7 +19,7 @@ export const enum BalanceCase {
  * Returns the given node itself if it has no children, or `null`
  * if the given node is itself `null`.
  */
-export function minNode<T, K extends Orderable>(node: Node<T, K> | null): Node<T, K> | null {
+export function minNode<K extends Ord, V>(node: Node<K, V> | null): Node<K, V> | null {
     return node === null ? null : minNode(node.left) ?? node
 }
 
@@ -28,7 +28,7 @@ export function minNode<T, K extends Orderable>(node: Node<T, K> | null): Node<T
  * Returns the given node itself if it has no children, or `null`
  * if the given node is itself `null`.
  */
-export function maxNode<T, K extends Orderable>(node: Node<T, K> | null): Node<T, K> | null {
+export function maxNode<K extends Ord, V>(node: Node<K, V> | null): Node<K, V> | null {
     return node === null ? null : maxNode(node.right) ?? node
 }
 
@@ -36,7 +36,7 @@ export function maxNode<T, K extends Orderable>(node: Node<T, K> | null): Node<T
  * Performs in-order traversal of the given node's subtree, applying the given
  * `fn` to each contained value.
  */
-export function forEach<T, K extends Orderable>(node: Node<T, K> | null, fn: (node: Node<T, K>) => void): void {
+export function forEach<K extends Ord, V>(node: Node<K, V> | null, fn: (node: Node<K, V>) => void): void {
     if (node === null) {
         return
     }
@@ -49,7 +49,7 @@ export function forEach<T, K extends Orderable>(node: Node<T, K> | null, fn: (no
 /**
  * Folds (reduces) the given node's subtree left-to-right using in-order traversal.
  */
-export function foldNodesLeft<T, K extends Orderable, U>(node: Node<T, K> | null, fn: (acc: U, curr: Node<T, K>) => U, seed: U): U {
+export function foldNodesLeft<K extends Ord, V, T>(node: Node<K, V> | null, fn: (acc: T, curr: Node<K, V>) => T, seed: T): T {
     if (node === null) {
         return seed
     }
@@ -62,7 +62,7 @@ export function foldNodesLeft<T, K extends Orderable, U>(node: Node<T, K> | null
 /**
  * Folds (reduces) the given node's subtree right-to-left using reversed in-order traversal.
  */
-export function foldNodesRight<T, K extends Orderable, U>(node: Node<T, K> | null, fn: (acc: U, curr: Node<T, K>) => U, seed: U): U {
+export function foldNodesRight<K extends Ord, V, T>(node: Node<K, V> | null, fn: (acc: T, curr: Node<K, V>) => T, seed: T): T {
     if (node === null) {
         return seed
     }
@@ -75,7 +75,7 @@ export function foldNodesRight<T, K extends Orderable, U>(node: Node<T, K> | nul
 /**
  * Search a value by a given `searchKey`, matching against keys of nodes.
  */
-export function search<T, K extends Orderable>(node: Node<T> | null, searchKey: K): T | null {
+export function search<K extends Ord, V>(node: Node<K, V> | null, searchKey: K): V | null {
     if (node === null) {
         return null
     }
@@ -93,28 +93,28 @@ export function search<T, K extends Orderable>(node: Node<T> | null, searchKey: 
 }
 
 /**
- * Inserts a value into the tree of a givrn node. Additionally requires a getKey function to
+ * Inserts a value into the tree of a given node. Additionally requires a getKey function to
  * extract keys from nodes in the tree for comparison.
  */
- export function insert<T, K extends Orderable>(insertValue: T, insertKey: K, node: Node<T, K> | null): Node<T, K> {
+ export function insert<K extends Ord, V>(key: K, val: V, node: Node<K, V> | null): Node<K, V> {
 
     if (node === null) {
-        return new Node(insertValue, insertKey)
+        return new Node(key, val)
     }
 
-    switch (scalarCompare(insertKey, node.key)) {
+    switch (scalarCompare(key, node.key)) {
         case Ordering.LT:
-            node.left = insert(insertValue, insertKey, node.left)
+            node.left = insert(key, val, node.left)
             break
 
         case Ordering.GT:
-            node.right = insert(insertValue, insertKey, node.right)
+            node.right = insert(key, val, node.right)
             break
     }
 
     updateNodeHeight(node)
 
-    switch (getBalanceCase(insertKey, node)) {
+    switch (getBalanceCase(key, node)) {
         case BalanceCase.LL:
             return rotateRight(node)
 
@@ -163,7 +163,7 @@ export function nodeBalance(node: Node | null): number {
 /**
  * Takes two values of type `K extends Orderable` and returns their ordering.
  */
-export function scalarCompare<K extends Orderable>(ka: K, kb: K): Ordering {
+export function scalarCompare<K extends Ord>(ka: K, kb: K): Ordering {
     return ka < kb ? Ordering.LT :
            ka > kb ? Ordering.GT : Ordering.EQ
 }
@@ -173,17 +173,17 @@ export function scalarCompare<K extends Orderable>(ka: K, kb: K): Ordering {
  * the BalanceCase for re-balancing the node if it is unbalanced after insertion. Returns `null`
  * otherwise.
  */
-export function getBalanceCase<T, K extends Orderable>(insertKey: K, node: Node<T, K>): BalanceCase | null {
+export function getBalanceCase<K extends Ord, V>(insertKey: K, node: Node<K, V>): BalanceCase | null {
     const balance = nodeBalance(node)
 
     if (balance < -1) {
         const subOrdering = scalarCompare(insertKey, node.left!.key)
         return subOrdering === Ordering.LT ? BalanceCase.LL :
-               subOrdering === Ordering.GT ? BalanceCase.LR : null
+               subOrdering === Ordering.GT ? BalanceCase.LR : null // Ordering.EQ will never occur
     } else if (balance > 1) {
         const subOrdering = scalarCompare(insertKey, node.right!.key)
         return subOrdering === Ordering.LT ? BalanceCase.RL :
-               subOrdering === Ordering.GT ? BalanceCase.RR : null
+               subOrdering === Ordering.GT ? BalanceCase.RR : null // Ordering.EQ will never occur
     } else {
         return null
     }
@@ -202,7 +202,7 @@ export function getBalanceCase<T, K extends Orderable>(insertKey: K, node: Node<
  *
  * ```
  */
-export function rotateLeft<T, K extends Orderable>(z: Node<T, K>): Node<T, K> {
+export function rotateLeft<K extends Ord, V>(z: Node<K, V>): Node<K, V> {
     if (z.right === null) {
         throw new Error('Cannot left-rotate a node without a right child')
     }
@@ -232,7 +232,7 @@ export function rotateLeft<T, K extends Orderable>(z: Node<T, K>): Node<T, K> {
  * T1   T2
  * ```
  */
-export function rotateRight<T, K extends Orderable>(z: Node<T, K>): Node<T, K> {
+export function rotateRight<K extends Ord, V>(z: Node<K, V>): Node<K, V> {
     if (z.left === null) {
         throw new Error('Cannot right-rotate a node without a left child')
     }

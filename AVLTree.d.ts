@@ -1,6 +1,12 @@
-export type Orderable = string | number
+/**
+ * The native orderable types whose relative order can be compared with `>` and `<`.
+ */
+export type Ord = string | number
 
-export type GetKey<T = any, K extends Orderable = Orderable> = (element: T) => K
+/**
+ * The signature for functions that derive orderable keys from complex values.
+ */
+export type GetKey<K extends Ord = Ord, V = unknown> = (element: V) => K
 
 /**
  * The creation methods for AVL tree instances.
@@ -22,10 +28,10 @@ export interface AVLTreeFactories {
 	 * // Note: there are multiple ways the types can be specified - pick your poison :)
 	 *
 	 * // 1. using a type guard (note the additional interface import)
-	 * const myTree: IAVLTree<Foo, number> = AVLTree.create((foo) => foo.id))
+	 * const myTree: IAVLTree<number, Foo> = AVLTree.create((foo) => foo.id))
 	 *
 	 * // 2. using explicit arguments
-	 * const myTree = AVLTree.create<Foo, number>((foo) => foo.id))
+	 * const myTree = AVLTree.create<number, Foo>((foo) => foo.id))
 	 *
 	 * // 3. inferred from the given function
 	 * const myTree = AVLTree.create((foo: Foo) => foo.id))
@@ -34,7 +40,7 @@ export interface AVLTreeFactories {
 	 * @typeParam T The type of values that are to be stored in the tree.
 	 * @typeParam K The key type that is derived from tree values, in order to compare their order.
 	 */
- 	create<T, K extends Orderable>(getKey: GetKey<T, K>): IAVLTree<T, K>
+ 	create<K extends Ord, V>(getKey: GetKey<K, V>): IAVLTree<K, V>
 
 	/**
 	 * Build an AVL tree for scalar - orderable - values. Note that (in typescript)
@@ -48,7 +54,7 @@ export interface AVLTreeFactories {
 	 *
 	 * @typeParam T The (scalar, orderable) type of tree values.
 	 */
-	scalar<T extends Orderable>(): IAVLTree<T, T>
+	scalar<V extends Ord>(): IAVLTree<V, V>
 }
 
 /**
@@ -56,40 +62,40 @@ export interface AVLTreeFactories {
  * @typeParam T The type of values that are to be stored in the tree.
  * @typeParam K The key type that is derived from tree values, in order to compare their order.
  */
-export interface IAVLTree<T, K extends Orderable> {
+export interface IAVLTree<K extends Ord, V> {
 
 	/**
 	 * Returns the value within the tree that ranks lowest, or `null`
 	 * if the tree is empty.
 	 */
-	minValue(): T | null
+	minValue(): V | null
 
 	/**
 	 * Returns the value within the tree that ranks highest, or `null`
 	 * if the tree is empty.
 	 */
-	maxValue(): T | null
+	maxValue(): V | null
 
 	/**
 	 * Search a value by a given `searchKey`, matching against keys of nodes.
 	 */
-	search(key: K): T | null
+	search(key: K): V | null
 
 	/**
 	 * Performs in-order traversal of the given node's subtree, applying the given `fn`
 	 * to each contained value.
 	 */
-	forEach(fn: (element: T) => void): void
+	forEach(fn: (element: V) => void): void
 
 	/**
 	 * Folds (reduces) the tree left-to-right using in-order traversal.
 	 */
-	foldLeft<U>(fn: (acc: U, curr: T) => U, seed: U): U
+	foldLeft<U>(fn: (acc: U, curr: V) => U, seed: U): U
 
 	/**
 	 * Folds (reduces) the tree right-to-left using reversed in-order traversal.
 	 */
-	foldRight<U>(fn: (acc: U, curr: T) => U, seed: U): U
+	foldRight<U>(fn: (acc: U, curr: V) => U, seed: U): U
 
 	/**
 	 * Returns a list of all keys within the tree as an array, in-order.
@@ -99,12 +105,12 @@ export interface IAVLTree<T, K extends Orderable> {
 	/**
 	 * Returns a list of all values within the tree as an array, in-order.
 	 */
-	values(): T[]
+	values(): V[]
 
 	/**
 	 * Inserts a new value into the tree.
 	 */
-	insert(value: T): void
+	insert(value: V): void
 
 	/**
 	 * Deletes the node with given key from the tree.

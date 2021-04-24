@@ -1,12 +1,12 @@
-import type { AVLTreeFactories, GetKey, Orderable } from '../AVLTree'
+import type { AVLTreeFactories, GetKey, Ord } from '../AVLTree'
 import { AVLTree } from './AVLTree'
 
 const factories: AVLTreeFactories = {
-    create<T, K extends Orderable>(getKey: GetKey<T, K>): AVLTree<T, K> {
+    create<K extends Ord, V>(getKey: GetKey<K, V>): AVLTree<K, V> {
         return new AVLTree(getKey)
     },
 
-    scalar<T extends Orderable = never>(): AVLTree<T, T> {
+    scalar<T extends Ord = never>(): AVLTree<T, T> {
         return new AVLTree((x) => x)
     },
 }
