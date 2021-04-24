@@ -4,15 +4,16 @@ const enum Ordering {
     GT = 1,
 }
 
-type Orderable = string | number
-type GetKey<T, K extends Orderable> = (element: T) => K
-
-enum BalanceCase {
-    LL,
-    LR,
-    RL,
-    RR,
+const enum BalanceCase {
+    LL = 'LL',
+    LR = 'LR',
+    RL = 'RL',
+    RR = 'RR',
 }
+
+type Orderable = string | number
+type GetKey<T = any, K extends Orderable = Orderable> = (element: T) => K
+
 
 // ------------------------------------------------------------------------
 //      Node class
@@ -189,128 +190,155 @@ function search<T, K extends Orderable>(node: Node<T> | null, searchKey: K, getK
 }
 
 /**
+ * Takes the key of an inserted value and a potentially unbalanced ancestor node, and returns
+ * the BalanceCase for re-balancing the node if it is unbalanced after insertion. Returns `null`
+ * otherwise. Additionally requires the `GetKey` function to extract keys from node values.
+ */
+function getBalanceCase<T, K extends Orderable>(insertKey: K, node: Node<T>, getKey: GetKey<T, K>): BalanceCase | null {
+    const balance = nodeBalance(node)
+
+    if (balance < -1) {
+        const subOrdering = scalarCompare(insertKey, getKey(node.left!.value))
+        return subOrdering === Ordering.LT ? BalanceCase.LL :
+               subOrdering === Ordering.GT ? BalanceCase.LR : null
+    } else if (balance > 1) {
+        const subOrdering = scalarCompare(insertKey, getKey(node.right!.value))
+        return subOrdering === Ordering.LT ? BalanceCase.RL :
+               subOrdering === Ordering.GT ? BalanceCase.RR : null
+    } else {
+        return null
+    }
+}
+
+/**
  * Inserts a value into the tree of a givrn node. Additionally requires a getKey function to
  * extract keys from nodes in the tree for comparison.
  */
-function insert<T, K extends Orderable>(value: T, node: Node<T> | null, getKey: GetKey<T, K>): Node<T> {
+function insert<T, K extends Orderable>(insertValue: T, node: Node<T> | null, getKey: GetKey<T, K>): Node<T> {
 
     if (node === null) {
-        return new Node(value)
+        return new Node(insertValue)
     }
 
-    switch (scalarCompare(getKey(value), getKey(node.value))) {
+    switch (scalarCompare(getKey(insertValue), getKey(node.value))) {
         case Ordering.LT:
-            node.left = insert(value, node.left, getKey)
+            node.left = insert(insertValue, node.left, getKey)
             break
 
         case Ordering.GT:
-            node.right = insert(value, node.right, getKey)
+            node.right = insert(insertValue, node.right, getKey)
             break
     }
 
     updateNodeHeight(node)
 
-    const balance = nodeBalance(node)
-
-    // Left - (Left | Right) case
-    if (balance < -1) {
-        const subOrdering = scalarCompare(getKey(value), getKey(node.left!.value))
-
-        // Left - Left case
+    switch (getBalanceCase(getKey(insertValue), node, getKey)) {
+        // Left - Left case:
         //          z                                      y
         //         / \                                   /   \
-        //        y   T4      Right Rotate (z)          x      z
+        //        y   T4      rotateRight(z)            x      z
         //       / \          - - - - - - - - ->      /  \    /  \
         //      x   T3                               T1  T2  T3  T4
         //     / \
         //   T1   T2
-        if (subOrdering === Ordering.LT) {
+        case BalanceCase.LL:
             return rotateRight(node)
-        }
 
-        // Left - Right case
+        // Left - Right case:
         //      z                               z                           x
         //     / \                            /   \                        /  \
-        //    y   T4  Left Rotate (y)        x    T4  Right Rotate(z)    y      z
+        //    y   T4  rotateLeft(y)          x    T4  rotateRight(z)     y      z
         //   / \      - - - - - - - - ->    /  \      - - - - - - - ->  / \    / \
         // T1   x                          y    T3                    T1  T2 T3  T4
         //     / \                        / \
         //   T2   T3                    T1   T2
-        if (subOrdering === Ordering.GT) {
+        case BalanceCase.LR:
             node.left = rotateLeft(node.left!)
             return rotateRight(node)
-        }
-    }
 
-    // Right - (Left | Right) case
-    if (balance > 1) {
-        const subOrdering = scalarCompare(getKey(value), getKey(node.right!.value))
-
-        // Right - Right case
-        //      z                                y
-        //     /  \                            /   \
-        //    T1   y     Left Rotate(z)       z      x
-        //        /  \   - - - - - - - ->    / \    / \
-        //       T2   x                     T1  T2 T3  T4
-        //           / \
-        //         T3  T4
-        if (subOrdering === Ordering.GT) {
-            return rotateLeft(node)
-        }
-
-        // Right - Left case
+        // Right - Left case:
         //      z                            z                            x
         //     / \                          / \                          /  \
-        //   T1   y   Right Rotate (y)    T1   x      Left Rotate(z)   z      y
+        //   T1   y   rotateRight(y)      T1   x      rotateLeft(z)    z      y
         //       / \  - - - - - - - - ->     /  \   - - - - - - - ->  / \    / \
         //      x   T4                      T2   y                  T1  T2  T3  T4
         //     / \                              /  \
         //   T2   T3                           T3   T4
-        if (subOrdering === Ordering.LT) {
+        case BalanceCase.RL:
             node.right = rotateRight(node.right!)
             return rotateLeft(node)
-        }
-    }
 
-    return node
+        // Right - Right case:
+        //      z                                y
+        //     /  \                            /   \
+        //    T1   y     rotateLeft(z)        z      x
+        //        /  \   - - - - - - - ->    / \    / \
+        //       T2   x                     T1  T2 T3  T4
+        //           / \
+        //         T3  T4
+        case BalanceCase.RR:
+            return rotateLeft(node)
+
+        // No balancing case - Node is still balanced:
+        default:
+            return node
+    }
 }
 
 /**
  * Performs a left rotation on the given node.
+ *```text
+ *   z                                y
+ *  /  \                            /   \
+ * T1   y     rotateLeft(z)        z      x
+ *     /  \   - - - - - - - ->    / \    / \
+ *    T2   x                     T1  T2 T3  T4
+ *        / \
+ *      T3  T4
+ * ```
  */
-function rotateLeft<T>(node: Node<T>): Node<T> {
-    if (node.right === null) {
+function rotateLeft<T>(z: Node<T>): Node<T> {
+    if (z.right === null) {
         throw new Error('Cannot left-rotate a node without a right child')
     }
 
-    const rightChild          = node.right
-    const rightLeftGrandchild = node.right.left
+    const y  = z.right
+    const t2 = z.right.left
 
-    rightChild.left = node
-    node.right = rightLeftGrandchild
+    y.left  = z
+    z.right = t2
 
-    updateNodeHeight(node)
-    updateNodeHeight(rightChild)
+    updateNodeHeight(z)
+    updateNodeHeight(y)
 
-    return rightChild
+    return y
 }
 
 /**
  * Performs a right rotation on the given node.
+ * ```text
+ *        z                                      y
+ *       / \                                   /   \
+ *      y   T4      rotateRight(z)            x      z
+ *     / \          - - - - - - - - ->      /  \    /  \
+ *    x   T3                               T1  T2  T3  T4
+ *   / \
+ * T1   T2
+ * ```
  */
-function rotateRight<T>(node: Node<T>): Node<T> {
-    if (node.left === null) {
+function rotateRight<T>(z: Node<T>): Node<T> {
+    if (z.left === null) {
         throw new Error('Cannot right-rotate a node without a left child')
     }
 
-    const leftChild           = node.left
-    const leftRightGrandchild = node.left.right
+    const y = z.left
+    const T3 = z.left.right
 
-    leftChild.right = node
-    node.left = leftRightGrandchild
+    y.right = z
+    z.left = T3
 
-    updateNodeHeight(node)
-    updateNodeHeight(leftChild)
+    updateNodeHeight(z)
+    updateNodeHeight(y)
 
-    return leftChild
+    return y
 }
