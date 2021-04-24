@@ -37,9 +37,42 @@ class Node<T = unknown, K extends Orderable = Orderable> {
 
 export default class AVLTree<T, K extends Orderable> {
 
+    /**
+     * Build an AVL tree for complex values. Requires a `getKey` function that takes such
+     * a complex value, and returns the key by which that value is identified.
+     * @example
+     * ```typescript
+     * interface Foo {
+     *     id: number
+     * }
+     *
+     * // Note: there are multiple ways the types can be specified; pick your poison!
+     *
+     * const myTree: AVLTree<Foo, number> = AVLTree.create((foo) => foo.id)) // using a type guard
+     * const myTree = AVLTree.create<Foo, number>((foo) => foo.id))          // using explicit arguments
+     * const myTree = AVLTree.create((foo: Foo) => foo.id))                  // inferred from the given function
+     * ```
+     */
+    public static create<T, K extends Orderable>(getKey: GetKey<T, K>): AVLTree<T, K> {
+        return new AVLTree(getKey)
+    }
+
+    /**
+     * Build an AVL tree for scalar - orderable - values. Note that the type argument for
+     * the scalar type is required for successive operations to properly type-check.
+     *
+     * @example
+     * ```
+     * const scalarTree = AVLTree.scalar<number>()
+     * ```
+     */
+    public static scalar<T extends Orderable>(): AVLTree<T, T> {
+        return new AVLTree(identity)
+    }
+
     private root: Node<T> | null = null
 
-    constructor(private readonly getKey: GetKey<T, K>) {
+    private constructor(private readonly getKey: GetKey<T, K>) {
     }
 
     public min(): T | null {
@@ -66,14 +99,17 @@ export default class AVLTree<T, K extends Orderable> {
         return foldRight(this.root, fn, seed)
     }
 
+    // O (n)
     public keys(): K[] {
         return this.foldLeft((acc: K[], curr: T) => [...acc, this.getKey(curr)], [])
     }
 
+    // O (n)
     public toArray(): T[] {
         return this.foldLeft((acc: T[], curr:T) => [...acc, curr], [])
     }
 
+    // O (log n)
     public insert(value: T): void {
         this.root = insert(value, this.getKey(value), this.root)
     }
@@ -90,6 +126,13 @@ export default class AVLTree<T, K extends Orderable> {
 // ------------------------------------------------------------------------
 //      Functions
 // ------------------------------------------------------------------------
+
+/**
+ * The identity function simply returns its given argument.
+ */
+function identity<T>(x: T): T {
+    return x
+}
 
 /**
  * Returns the height of given node or zero if the node is `null`.
