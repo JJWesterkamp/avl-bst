@@ -19,12 +19,15 @@ type GetKey<T = any, K extends Orderable = Orderable> = (element: T) => K
 //      Node class
 // ------------------------------------------------------------------------
 
-class Node<T = unknown> {
+class Node<T = unknown, K extends Orderable = Orderable> {
     public height: number = 1
     public left: Node<T> | null = null
     public right: Node<T> | null = null
 
-    constructor(public readonly value: T) {
+    constructor(
+        public readonly value: T,
+        public readonly key: K,
+    ) {
     }
 }
 
@@ -48,7 +51,7 @@ export default class AVLTree<T, K extends Orderable> {
     }
 
     public search(key: K): T | null {
-        return search(this.root, key, this.getKey)
+        return search(this.root, key)
     }
 
     public forEach(fn: (element: T) => void): void {
@@ -64,7 +67,7 @@ export default class AVLTree<T, K extends Orderable> {
     }
 
     public insert(value: T): void {
-        this.root = insert(value, this.root, this.getKey)
+        this.root = insert(value, this.getKey(value), this.root)
     }
 
     public delete(key: K): void {
@@ -171,38 +174,37 @@ function foldRight<T, U>(node: Node<T> | null, fn: (acc: U, curr: T) => U, seed:
 }
 
 /**
- * Search a value by a given `searchKey`, matching against keys of node values. Uses the
- * given `getKey` function to extract keys (orderable values) from node values.
+ * Search a value by a given `searchKey`, matching against keys of nodes.
  */
-function search<T, K extends Orderable>(node: Node<T> | null, searchKey: K, getKey: GetKey<T, K>): T | null {
+function search<T, K extends Orderable>(node: Node<T> | null, searchKey: K): T | null {
     if (node === null) {
         return null
     }
 
-    switch (scalarCompare(searchKey, getKey(node.value))) {
+    switch (scalarCompare(searchKey, node.key)) {
         case Ordering.LT:
-            return search(node.left, searchKey, getKey)
+            return search(node.left, searchKey)
         case Ordering.EQ:
             return node.value
         case Ordering.GT:
-            return search(node.right, searchKey, getKey)
+            return search(node.right, searchKey)
     }
 }
 
 /**
  * Takes the key of an inserted value and a potentially unbalanced ancestor node, and returns
  * the BalanceCase for re-balancing the node if it is unbalanced after insertion. Returns `null`
- * otherwise. Additionally requires the `GetKey` function to extract keys from node values.
+ * otherwise.
  */
-function getBalanceCase<T, K extends Orderable>(insertKey: K, node: Node<T>, getKey: GetKey<T, K>): BalanceCase | null {
+function getBalanceCase<T, K extends Orderable>(insertKey: K, node: Node<T>): BalanceCase | null {
     const balance = nodeBalance(node)
 
     if (balance < -1) {
-        const subOrdering = scalarCompare(insertKey, getKey(node.left!.value))
+        const subOrdering = scalarCompare(insertKey, node.left!.key)
         return subOrdering === Ordering.LT ? BalanceCase.LL :
                subOrdering === Ordering.GT ? BalanceCase.LR : null
     } else if (balance > 1) {
-        const subOrdering = scalarCompare(insertKey, getKey(node.right!.value))
+        const subOrdering = scalarCompare(insertKey, node.right!.key)
         return subOrdering === Ordering.LT ? BalanceCase.RL :
                subOrdering === Ordering.GT ? BalanceCase.RR : null
     } else {
@@ -214,25 +216,25 @@ function getBalanceCase<T, K extends Orderable>(insertKey: K, node: Node<T>, get
  * Inserts a value into the tree of a givrn node. Additionally requires a getKey function to
  * extract keys from nodes in the tree for comparison.
  */
-function insert<T, K extends Orderable>(insertValue: T, node: Node<T> | null, getKey: GetKey<T, K>): Node<T> {
+function insert<T, K extends Orderable>(insertValue: T, insertKey: K, node: Node<T> | null): Node<T> {
 
     if (node === null) {
-        return new Node(insertValue)
+        return new Node(insertValue, insertKey)
     }
 
-    switch (scalarCompare(getKey(insertValue), getKey(node.value))) {
+    switch (scalarCompare(insertKey, node.key)) {
         case Ordering.LT:
-            node.left = insert(insertValue, node.left, getKey)
+            node.left = insert(insertValue, insertKey, node.left)
             break
 
         case Ordering.GT:
-            node.right = insert(insertValue, node.right, getKey)
+            node.right = insert(insertValue, insertKey, node.right)
             break
     }
 
     updateNodeHeight(node)
 
-    switch (getBalanceCase(getKey(insertValue), node, getKey)) {
+    switch (getBalanceCase(insertKey, node)) {
         // Left - Left case:
         //          z                                      y
         //         / \                                   /   \
