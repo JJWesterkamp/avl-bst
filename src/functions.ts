@@ -1,4 +1,4 @@
-import type { Orderable } from './types'
+import type { Orderable } from '../AVLTree'
 import { Node } from './Node'
 
 export const enum Ordering {
@@ -15,65 +15,26 @@ export const enum BalanceCase {
 }
 
 /**
- * The identity function simply returns its given argument.
- */
- export function identity<T>(x: T): T {
-    return x
-}
-
-/**
- * Returns the height of given node or zero if the node is `null`.
- */
-export function nodeHeight(node: Node | null): number {
-    return node?.height ?? 0
-}
-
-/**
- * Updates the given node's height property based on the current heights
- * of its left and right subtrees.
- */
-export function updateNodeHeight(node: Node): void {
-    node.height = 1 + Math.max(
-        nodeHeight(node.left),
-        nodeHeight(node.right),
-    )
-}
-
-/**
- * Returns the given node's balance: the relationship between the heights
- * of its left and right subtrees. Returns zero if the node is `null`.
- */
-export function nodeBalance(node: Node | null): number {
-    return node ? nodeHeight(node.right) - nodeHeight(node.left) : 0
-}
-
-/**
- * Takes two values of type `K extends Orderable` and returns their ordering.
- */
-export function scalarCompare<K extends Orderable>(ka: K, kb: K): Ordering {
-    return ka < kb ? Ordering.LT :
-           ka > kb ? Ordering.GT : Ordering.EQ
-}
-
-/**
- * Returns the node within the subtree of given node containing the value that ranks lowest.
- * Returns the given node itself if it has no children.
+ * Returns the value within the subtree of given node that ranks lowest.
+ * Returns the given node's value itself if it has no children, or `null`
+ * if the given node is itself `null`.
  */
 export function min<T>(node: Node<T> | null): T | null {
     return node === null ? null : min(node.left) ?? node.value
 }
 
 /**
- * Returns the value if the node within the subtree of given node containing the value that ranks highest.
- * Returns the value of the given node itself if it has no children.
+ * Returns the value within the subtree of given node that ranks highest.
+ * Returns the given node's value itself if it has no children, or `null`
+ * if the given node is itself `null`.
  */
 export function max<T>(node: Node<T> | null): T | null {
     return node === null ? null : max(node.right) ?? node.value
 }
 
 /**
- * Performs in-order traversal of the given node's subtree, calling the given `fn` for each
- * contained value.
+ * Performs in-order traversal of the given node's subtree, applying the given
+ * `fn` to each contained value.
  */
 export function forEach<T>(node: Node<T> | null, fn: (val: T) => void): void {
     if (node === null) {
@@ -122,11 +83,89 @@ export function search<T, K extends Orderable>(node: Node<T> | null, searchKey: 
     switch (scalarCompare(searchKey, node.key)) {
         case Ordering.LT:
             return search(node.left, searchKey)
+
         case Ordering.EQ:
             return node.value
+
         case Ordering.GT:
             return search(node.right, searchKey)
     }
+}
+
+/**
+ * Inserts a value into the tree of a givrn node. Additionally requires a getKey function to
+ * extract keys from nodes in the tree for comparison.
+ */
+ export function insert<T, K extends Orderable>(insertValue: T, insertKey: K, node: Node<T> | null): Node<T> {
+
+    if (node === null) {
+        return new Node(insertValue, insertKey)
+    }
+
+    switch (scalarCompare(insertKey, node.key)) {
+        case Ordering.LT:
+            node.left = insert(insertValue, insertKey, node.left)
+            break
+
+        case Ordering.GT:
+            node.right = insert(insertValue, insertKey, node.right)
+            break
+    }
+
+    updateNodeHeight(node)
+
+    switch (getBalanceCase(insertKey, node)) {
+        case BalanceCase.LL:
+            return rotateRight(node)
+
+        case BalanceCase.LR:
+            node.left = rotateLeft(node.left!)
+            return rotateRight(node)
+
+        case BalanceCase.RL:
+            node.right = rotateRight(node.right!)
+            return rotateLeft(node)
+
+        case BalanceCase.RR:
+            return rotateLeft(node)
+
+        default:
+            return node
+    }
+}
+
+/**
+ * Returns the height of given node or zero if the node is `null`.
+ */
+ function nodeHeight(node: Node | null): number {
+    return node?.height ?? 0
+}
+
+/**
+ * Updates the given node's height property based on the current heights
+ * of its left and right subtrees.
+ */
+export function updateNodeHeight(node: Node): void {
+    node.height = 1 + Math.max(
+        nodeHeight(node.left),
+        nodeHeight(node.right),
+    )
+}
+
+/**
+ * Returns the given node's balance: the relationship between the heights
+ * of its left and right subtrees. Returns zero if the node is `null`.
+ */
+export function nodeBalance(node: Node | null): number {
+    return node ? nodeHeight(node.right) - nodeHeight(node.left) : 0
+}
+
+/**
+ * Takes two values of type `K extends Orderable` and returns their ordering.
+ */
+export function scalarCompare<K extends Orderable>(ka: K, kb: K): Ordering {
+    return ka < kb ? Ordering.LT :
+           ka > kb ? Ordering.GT : Ordering.EQ
 }
 
 /**
@@ -151,90 +190,16 @@ export function getBalanceCase<T, K extends Orderable>(insertKey: K, node: Node<
 }
 
 /**
- * Inserts a value into the tree of a givrn node. Additionally requires a getKey function to
- * extract keys from nodes in the tree for comparison.
- */
-export function insert<T, K extends Orderable>(insertValue: T, insertKey: K, node: Node<T> | null): Node<T> {
-
-    if (node === null) {
-        return new Node(insertValue, insertKey)
-    }
-
-    switch (scalarCompare(insertKey, node.key)) {
-        case Ordering.LT:
-            node.left = insert(insertValue, insertKey, node.left)
-            break
-
-        case Ordering.GT:
-            node.right = insert(insertValue, insertKey, node.right)
-            break
-    }
-
-    updateNodeHeight(node)
-
-    switch (getBalanceCase(insertKey, node)) {
-        // Left - Left case:
-        //          z                                      y
-        //         / \                                   /   \
-        //        y   T4      rotateRight(z)            x      z
-        //       / \          - - - - - - - - ->      /  \    /  \
-        //      x   T3                               T1  T2  T3  T4
-        //     / \
-        //   T1   T2
-        case BalanceCase.LL:
-            return rotateRight(node)
-
-        // Left - Right case:
-        //      z                               z                           x
-        //     / \                            /   \                        /  \
-        //    y   T4  rotateLeft(y)          x    T4  rotateRight(z)     y      z
-        //   / \      - - - - - - - - ->    /  \      - - - - - - - ->  / \    / \
-        // T1   x                          y    T3                    T1  T2 T3  T4
-        //     / \                        / \
-        //   T2   T3                    T1   T2
-        case BalanceCase.LR:
-            node.left = rotateLeft(node.left!)
-            return rotateRight(node)
-
-        // Right - Left case:
-        //      z                            z                            x
-        //     / \                          / \                          /  \
-        //   T1   y   rotateRight(y)      T1   x      rotateLeft(z)    z      y
-        //       / \  - - - - - - - - ->     /  \   - - - - - - - ->  / \    / \
-        //      x   T4                      T2   y                  T1  T2  T3  T4
-        //     / \                              /  \
-        //   T2   T3                           T3   T4
-        case BalanceCase.RL:
-            node.right = rotateRight(node.right!)
-            return rotateLeft(node)
-
-        // Right - Right case:
-        //      z                                y
-        //     /  \                            /   \
-        //    T1   y     rotateLeft(z)        z      x
-        //        /  \   - - - - - - - ->    / \    / \
-        //       T2   x                     T1  T2 T3  T4
-        //           / \
-        //         T3  T4
-        case BalanceCase.RR:
-            return rotateLeft(node)
-
-        // No balancing case - Node is still balanced:
-        default:
-            return node
-    }
-}
-
-/**
  * Performs a left rotation on the given node.
- *```text
- *   z                                y
- *  /  \                            /   \
- * T1   y     rotateLeft(z)        z      x
- *     /  \   - - - - - - - ->    / \    / \
- *    T2   x                     T1  T2 T3  T4
+ * ```text
+ *   z                                  y
+ *  /  \                              /   \
+ * T1   y       rotateLeft(z)        z      x
+ *     /  \     - - - - - - - ->    / \    / \
+ *    T2   x                       T1  T2 T3  T4
  *        / \
  *      T3  T4
+ *
  * ```
  */
 export function rotateLeft<T>(z: Node<T>): Node<T> {
@@ -243,10 +208,10 @@ export function rotateLeft<T>(z: Node<T>): Node<T> {
     }
 
     const y  = z.right
-    const t2 = z.right.left
+    const T2 = z.right.left
 
     y.left  = z
-    z.right = t2
+    z.right = T2
 
     updateNodeHeight(z)
     updateNodeHeight(y)
@@ -256,6 +221,7 @@ export function rotateLeft<T>(z: Node<T>): Node<T> {
 
 /**
  * Performs a right rotation on the given node.
+ *
  * ```text
  *        z                                      y
  *       / \                                   /   \
@@ -271,7 +237,7 @@ export function rotateRight<T>(z: Node<T>): Node<T> {
         throw new Error('Cannot right-rotate a node without a left child')
     }
 
-    const y = z.left
+    const y  = z.left
     const T3 = z.left.right
 
     y.right = z

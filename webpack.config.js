@@ -22,11 +22,10 @@ module.exports = {
         path: resolve(__dirname, 'umd'),
         filename: '[name].js',
         library: {
-            name: 'AvlTree',
+            name: 'AVLTree',
             type: 'umd',
             export: 'default',
         },
-        libraryTarget: 'umd',
     },
     devtool: 'source-map',
     resolve: {

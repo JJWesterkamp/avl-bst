@@ -488,9 +488,9 @@
     chalk "^4.0.0"
 
 "@jjwesterkamp/typedoc-theme@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@jjwesterkamp/typedoc-theme/-/typedoc-theme-1.0.0.tgz#2b3d5a7f439fa09c76cd7e4c6aa9ded4990a5f40"
-  integrity sha512-NidzO0VmC6TuYkqhbI9Q9jEl/aJqLYzxptzIQ0e8HDwFFpwm/Fv4/PHwHdVGBLgnuAifJ25KD/pwkti/bSHF+A==
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@jjwesterkamp/typedoc-theme/-/typedoc-theme-1.0.1.tgz#d5edbd38a5f1a19393617076201052f8eae6bd7f"
+  integrity sha512-opniJfwifGIVQEyGyD7HTzi/+f+Yz4LurbM9jSpNXuYaNyrNAx97xoib713Ub7A3F9MaQLxRxp1H8mwO7NzU+Q==
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
