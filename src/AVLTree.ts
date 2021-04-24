@@ -1,20 +1,22 @@
-import type { IAVLTree, GetKey, Orderable } from "../AVLTree"
+import type { GetKey, IAVLTree, Orderable } from '../AVLTree'
 import { Node } from './Node'
-import { foldLeft, foldRight, forEach, insert, max, min, search } from './functions'
+import { foldNodesLeft, foldNodesRight, forEach, insert, maxNode, minNode, search } from './functions'
 
 export class AVLTree<T, K extends Orderable> implements IAVLTree<T, K> {
 
-    private root: Node<T> | null = null
+    private root: Node<T, K> | null = null
 
-    constructor(private readonly getKey: GetKey<T, K>) {
+    constructor(
+        private readonly getKey: GetKey<T, K>,
+    ) {
     }
 
-    public min(): T | null {
-        return min(this.root)
+    public minValue(): T | null {
+        return minNode(this.root)?.value ?? null
     }
 
-    public max(): T | null {
-        return max(this.root)
+    public maxValue(): T | null {
+        return maxNode(this.root)?.value ?? null
     }
 
     public search(key: K): T | null {
@@ -22,23 +24,23 @@ export class AVLTree<T, K extends Orderable> implements IAVLTree<T, K> {
     }
 
     public forEach(fn: (element: T) => void): void {
-        forEach(this.root, fn)
+        forEach(this.root, (node) => fn(node.value))
     }
 
-    public foldLeft<U>(fn: (acc: U, curr: T) => U, seed: U): U {
-        return foldLeft(this.root, fn, seed)
+    public foldLeft<U>(fn: (acc: U, value: T) => U, seed: U): U {
+        return foldNodesLeft(this.root, (acc, node) => fn(acc, node.value), seed)
     }
 
-    public foldRight<U>(fn: (acc: U, curr: T) => U, seed: U): U {
-        return foldRight(this.root, fn, seed)
+    public foldRight<U>(fn: (acc: U, value: T) => U, seed: U): U {
+        return foldNodesRight(this.root, (acc, node) => fn(acc, node.value), seed)
     }
 
     public keys(): K[] {
-        return this.foldLeft((acc: K[], curr: T) => [...acc, this.getKey(curr)], [])
+        return this.toArray((node) => node.key)
     }
 
-    public toArray(): T[] {
-        return this.foldLeft((acc: T[], curr:T) => [...acc, curr], [])
+    public values(): T[] {
+        return this.toArray((node) => node.value)
     }
 
     public insert(value: T): void {
@@ -51,5 +53,12 @@ export class AVLTree<T, K extends Orderable> implements IAVLTree<T, K> {
 
     private balance(): void {
         // Todo ...
+    }
+
+    private toArray<U>(transformer: (node: Node<T, K>) => U): U[] {
+        return foldNodesLeft<T, K, U[]>(this.root, (acc, node) => {
+            acc.push(transformer(node))
+            return acc
+        }, [])
     }
 }

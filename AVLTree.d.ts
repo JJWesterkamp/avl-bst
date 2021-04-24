@@ -62,13 +62,13 @@ export interface IAVLTree<T, K extends Orderable> {
 	 * Returns the value within the tree that ranks lowest, or `null`
 	 * if the tree is empty.
 	 */
-	min(): T | null
+	minValue(): T | null
 
 	/**
 	 * Returns the value within the tree that ranks highest, or `null`
 	 * if the tree is empty.
 	 */
-	max(): T | null
+	maxValue(): T | null
 
 	/**
 	 * Search a value by a given `searchKey`, matching against keys of nodes.
@@ -92,14 +92,14 @@ export interface IAVLTree<T, K extends Orderable> {
 	foldRight<U>(fn: (acc: U, curr: T) => U, seed: U): U
 
 	/**
-	 * Returns all keys within the tree as an array, in-order.
+	 * Returns a list of all keys within the tree as an array, in-order.
 	 */
 	keys(): K[]
 
 	/**
-	 * Returns all values within the tree as an array, in-order.
+	 * Returns a list of all values within the tree as an array, in-order.
 	 */
-	toArray(): T[]
+	values(): T[]
 
 	/**
 	 * Inserts a new value into the tree.
