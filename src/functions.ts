@@ -7,13 +7,6 @@ export const enum Ordering {
     GT = 1,
 }
 
-export const enum BalanceCase {
-    LL = 'LL',
-    LR = 'LR',
-    RL = 'RL',
-    RR = 'RR',
-}
-
 /**
  * Returns the node within the subtree of given node that ranks lowest.
  * Returns the given node itself if it has no children, or `null`
@@ -93,8 +86,7 @@ export function search<K extends Ord, V>(node: Node<K, V> | null, searchKey: K):
 }
 
 /**
- * Inserts a value into the tree of a given node. Additionally requires a getKey function to
- * extract keys from nodes in the tree for comparison.
+ * Inserts the given key an corresponding value into the tree of the given node.
  */
  export function insert<K extends Ord, V>(key: K, val: V, node: Node<K, V> | null): Node<K, V> {
 
@@ -114,30 +106,81 @@ export function search<K extends Ord, V>(node: Node<K, V> | null, searchKey: K):
 
     updateNodeHeight(node)
 
-    switch (getBalanceCase(key, node)) {
-        case BalanceCase.LL:
-            return rotateRight(node)
+    if (nodeBalance(node) < -1) {
+        switch (scalarCompare(key, node.left!.key)) {
 
-        case BalanceCase.LR:
-            node.left = rotateLeft(node.left!)
-            return rotateRight(node)
+            /*────────────────────────────────────────────────────────────────────────────────────────┐
+            │      Left - Left case                                                                   │
+            ├─────────────────────────────────────────────────────────────────────────────────────────┤
+            │           z                                      y                                      │
+            │          / \                                   /   \                                    │
+            │         y   T4      Right Rotate (z)          x      z                                  │
+            │        / \          - - - - - - - - ->      /  \    /  \                                │
+            │       x   T3                               T1  T2  T3  T4                               │
+            │      / \                                                                                │
+            │    T1   T2                                                                              │
+            └────────────────────────────────────────────────────────────────────────────────────────*/
+            case Ordering.LT:
+                return rotateRight(node)
 
-        case BalanceCase.RL:
-            node.right = rotateRight(node.right!)
-            return rotateLeft(node)
-
-        case BalanceCase.RR:
-            return rotateLeft(node)
-
-        default:
-            return node
+            /*────────────────────────────────────────────────────────────────────────────────────────┐
+            │      Left - Right case                                                                  │
+            ├─────────────────────────────────────────────────────────────────────────────────────────┤
+            │         z                                  z                                x           │
+            │        / \                               /   \                             /  \         │
+            │       y   T4    Left Rotate (y)         x     T4   Right Rotate(z)       y      z       │
+            │      / \        - - - - - - - - ->     /  \        - - - - - - - ->     / \    / \      │
+            │    T1   x                             y    T3                         T1  T2  T3  T4    │
+            │        / \                           / \                                                │
+            │      T2   T3                       T1   T2                                              │
+            └────────────────────────────────────────────────────────────────────────────────────────*/
+            case Ordering.GT:
+                node.left = rotateLeft(node.left!)
+                return rotateRight(node)
+        }
     }
+
+    if (nodeBalance(node) > 1) {
+        switch (scalarCompare(key, node.right!.key)) {
+
+            /*────────────────────────────────────────────────────────────────────────────────────────┐
+            │      Right - Left case                                                                  │
+            ├─────────────────────────────────────────────────────────────────────────────────────────┤
+            │      z                                z                                 x               │
+            │     / \                              / \                               /  \             │
+            │   T1   y     Right Rotate (y)      T1   x        Left Rotate(z)      z      y           │
+            │       / \    - - - - - - - - ->       /  \     - - - - - - - ->     / \    / \          │
+            │      x   T4                         T2    y                       T1  T2  T3  T4        │
+            │     / \                                  /  \                                           │
+            │   T2   T3                               T3   T4                                         │
+            └────────────────────────────────────────────────────────────────────────────────────────*/
+            case Ordering.LT:
+                node.right = rotateRight(node.right!)
+                return rotateLeft(node)
+
+            /*────────────────────────────────────────────────────────────────────────────────────────┐
+            │      Right - Right case                                                                 │
+            ├─────────────────────────────────────────────────────────────────────────────────────────┤
+            │       z                                   y                                             │
+            │      /  \                               /   \                                           │
+            │    T1    y       Left Rotate(z)        z      x                                         │
+            │         /  \     - - - - - - - ->     / \    / \                                        │
+            │       T2    x                        T1  T2 T3  T4                                      │
+            │             / \                                                                         │
+            │           T3   T4                                                                       │
+            └────────────────────────────────────────────────────────────────────────────────────────*/
+            case Ordering.GT:
+                return rotateLeft(node)
+        }
+    }
+
+    return node
 }
 
 /**
  * Returns the height of given node or zero if the node is `null`.
  */
- function nodeHeight(node: Node | null): number {
+ export function nodeHeight(node: Node | null): number {
     return node?.height ?? 0
 }
 
@@ -169,27 +212,6 @@ export function scalarCompare<K extends Ord>(ka: K, kb: K): Ordering {
 }
 
 /**
- * Takes the key of an inserted value and a potentially unbalanced ancestor node, and returns
- * the BalanceCase for re-balancing the node if it is unbalanced after insertion. Returns `null`
- * otherwise.
- */
-export function getBalanceCase<K extends Ord, V>(insertKey: K, node: Node<K, V>): BalanceCase | null {
-    const balance = nodeBalance(node)
-
-    if (balance < -1) {
-        const subOrdering = scalarCompare(insertKey, node.left!.key)
-        return subOrdering === Ordering.LT ? BalanceCase.LL :
-               subOrdering === Ordering.GT ? BalanceCase.LR : null // Ordering.EQ will never occur
-    } else if (balance > 1) {
-        const subOrdering = scalarCompare(insertKey, node.right!.key)
-        return subOrdering === Ordering.LT ? BalanceCase.RL :
-               subOrdering === Ordering.GT ? BalanceCase.RR : null // Ordering.EQ will never occur
-    } else {
-        return null
-    }
-}
-
-/**
  * Performs a left rotation on the given node.
  * ```text
  *   z                                  y
@@ -199,24 +221,23 @@ export function getBalanceCase<K extends Ord, V>(insertKey: K, node: Node<K, V>)
  *    T2   x                       T1  T2 T3  T4
  *        / \
  *      T3  T4
- *
  * ```
  */
-export function rotateLeft<K extends Ord, V>(z: Node<K, V>): Node<K, V> {
-    if (z.right === null) {
+export function rotateLeft<K extends Ord, V>(node: Node<K, V>): Node<K, V> {
+    if (node.right === null) {
         throw new Error('Cannot left-rotate a node without a right child')
     }
 
-    const y  = z.right
-    const T2 = z.right.left
+    const R  = node.right
+    const RL = node.right.left
 
-    y.left  = z
-    z.right = T2
+    R.left = node
+    node.right = RL
 
-    updateNodeHeight(z)
-    updateNodeHeight(y)
+    updateNodeHeight(node)
+    updateNodeHeight(R)
 
-    return y
+    return R
 }
 
 /**
@@ -232,19 +253,19 @@ export function rotateLeft<K extends Ord, V>(z: Node<K, V>): Node<K, V> {
  * T1   T2
  * ```
  */
-export function rotateRight<K extends Ord, V>(z: Node<K, V>): Node<K, V> {
-    if (z.left === null) {
+export function rotateRight<K extends Ord, V>(node: Node<K, V>): Node<K, V> {
+    if (node.left === null) {
         throw new Error('Cannot right-rotate a node without a left child')
     }
 
-    const y  = z.left
-    const T3 = z.left.right
+    const L  = node.left
+    const LR = node.left.right
 
-    y.right = z
-    z.left = T3
+    L.right = node
+    node.left = LR
 
-    updateNodeHeight(z)
-    updateNodeHeight(y)
+    updateNodeHeight(node)
+    updateNodeHeight(L)
 
-    return y
+    return L
 }
