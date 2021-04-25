@@ -5,6 +5,9 @@ export type Ord = string | number
 
 /**
  * The signature for functions that derive orderable keys from complex values.
+ *
+ * @typeParam K The key type to extract from node values.
+ * @typeParam V The node value type from which to extract keys.
  */
 export type GetKey<K extends Ord = Ord, V = unknown> = (element: V) => K
 
@@ -59,8 +62,9 @@ export interface AVLTreeFactories {
 
 /**
  * The AVL tree's instance interface.
- * @typeParam T The type of values that are to be stored in the tree.
+ *
  * @typeParam K The key type that is derived from tree values, in order to compare their order.
+ * @typeParam V The type of values that are to be stored in the tree.
  */
 export interface IAVLTree<K extends Ord, V> {
 
@@ -78,22 +82,38 @@ export interface IAVLTree<K extends Ord, V> {
 
 	/**
 	 * Search a value by a given `searchKey`, matching against keys of nodes.
+	 *
+	 * @param key The node key - which must be of type K - to look for.
+	 * @return The matching value contained in the tree, or `null` if the key
+	 *         is not in the tree.
 	 */
 	search(key: K): V | null
 
 	/**
 	 * Performs in-order traversal of the given node's subtree, applying the given `fn`
 	 * to each contained value.
+	 *
+	 * @param fn The callback function to run for each value in the tree.
 	 */
 	forEach(fn: (element: V) => void): void
 
 	/**
 	 * Folds (reduces) the tree left-to-right using in-order traversal.
+	 *
+	 * @param fn 	 The accumulator function.
+	 * @param seed 	 The initial value.
+	 * @typeParam U  The type of the accumulation (and the seed).
+	 * @return 		 The accumulation of the tree.
 	 */
 	foldLeft<U>(fn: (acc: U, curr: V) => U, seed: U): U
 
 	/**
 	 * Folds (reduces) the tree right-to-left using reversed in-order traversal.
+	 *
+	 * @param fn 	 The accumulator function.
+	 * @param seed 	 The initial value.
+	 * @typeParam U  The type of the accumulation (and the seed).
+	 * @return 		 The accumulation value.
 	 */
 	foldRight<U>(fn: (acc: U, curr: V) => U, seed: U): U
 
