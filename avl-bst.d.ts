@@ -87,6 +87,11 @@ export interface AVLTreeFactories {
 export interface IAVLTree<K extends Ord, V> {
 
 	/**
+	 * Returns `true` if the tree does not have any nodes.
+	 */
+	isEmpty(): boolean
+
+	/**
 	 * Returns the value within the tree that ranks lowest, or `null`
 	 * if the tree is empty.
 	 */

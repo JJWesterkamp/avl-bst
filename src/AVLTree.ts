@@ -28,6 +28,10 @@ export class AVLTree<K extends Ord, V> implements IAVLTree<K, V> {
     ) {
     }
 
+    public isEmpty(): boolean {
+        return this.root === null
+    }
+
     public minValue(): V | null {
         return minNode(this.root)?.value ?? null
     }
