@@ -126,6 +126,11 @@
 <span style="color: #616E88">// Inserting values with duplicate keys is not possible:</span>
 <span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">insert</span><span style="color: #D8DEE9FF">(</span><span style="color: #ECEFF4">{</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">id</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #B48EAD">10</span><span style="color: #ECEFF4">,</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">name</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&#039;</span><span style="color: #A3BE8C">m</span><span style="color: #ECEFF4">&#039;</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">}</span><span style="color: #D8DEE9FF">)  </span><span style="color: #616E88">// &gt; false</span>
 </code></pre>
+				<p><strong>Checking the size of the tree</strong></p>
+				<p><em>O (1)</em></p>
+				<pre><code class="language-typescript"><span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">size</span><span style="color: #D8DEE9FF">() </span><span style="color: #616E88">// &gt; 12</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">isEmpty</span><span style="color: #D8DEE9FF">() </span><span style="color: #616E88">// false</span>
+</code></pre>
 				<p><strong>Searching values</strong></p>
 				<p><em>O (log n)</em></p>
 				<pre><code class="language-typescript"><span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">search</span><span style="color: #D8DEE9FF">(</span><span style="color: #B48EAD">14</span><span style="color: #D8DEE9FF">)  </span><span style="color: #616E88">// &gt; { id: 14, name: &#039;h&#039; }</span>

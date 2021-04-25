@@ -121,6 +121,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="internal___avlnode.avlnode.html#key" class="tsd-kind-icon">key</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="internal___avlnode.avlnode.html#left" class="tsd-kind-icon">left</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="internal___avlnode.avlnode.html#right" class="tsd-kind-icon">right</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="internal___avlnode.avlnode.html#size" class="tsd-kind-icon">size</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="internal___avlnode.avlnode.html#value" class="tsd-kind-icon">value</a></li>
 							</ul>
 						</section>
@@ -139,7 +140,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/JJWesterkamp/avl-bst/blob/bd5fc7e/src/AVLNode.ts#L36">src/AVLNode.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/JJWesterkamp/avl-bst/blob/25328c3/src/AVLNode.ts#L39">src/AVLNode.ts:39</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -179,7 +180,7 @@
 					<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/JJWesterkamp/avl-bst/blob/bd5fc7e/src/AVLNode.ts#L26">src/AVLNode.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/JJWesterkamp/avl-bst/blob/25328c3/src/AVLNode.ts#L22">src/AVLNode.ts:22</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -202,7 +203,7 @@
 					<div class="tsd-signature tsd-kind-icon">left<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/JJWesterkamp/avl-bst/blob/bd5fc7e/src/AVLNode.ts#L31">src/AVLNode.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/JJWesterkamp/avl-bst/blob/25328c3/src/AVLNode.ts#L34">src/AVLNode.ts:34</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -217,12 +218,28 @@
 					<div class="tsd-signature tsd-kind-icon">right<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/JJWesterkamp/avl-bst/blob/bd5fc7e/src/AVLNode.ts#L36">src/AVLNode.ts:36</a></li>
+							<li>Defined in <a href="https://github.com/JJWesterkamp/avl-bst/blob/25328c3/src/AVLNode.ts#L39">src/AVLNode.ts:39</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The right child of the node.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="size" class="tsd-anchor"></a>
+					<h3>size</h3>
+					<div class="tsd-signature tsd-kind-icon">size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/JJWesterkamp/avl-bst/blob/25328c3/src/AVLNode.ts#L29">src/AVLNode.ts:29</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The size of the node: the amount of nodes (including this node itself)
+							within the node&#39;s subtree.</p>
 						</div>
 					</div>
 				</section>
@@ -276,6 +293,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="internal___avlnode.avlnode.html#right" class="tsd-kind-icon">right</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="internal___avlnode.avlnode.html#size" class="tsd-kind-icon">size</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="internal___avlnode.avlnode.html#value" class="tsd-kind-icon">value</a>
