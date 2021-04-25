@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] (2021-04-25)
+
 ### Fixed
 - Renamed UMD bundle names to match the npm package name.
 - package.json path to type declarations.
@@ -22,5 +24,6 @@ Initial version featuring the basic BST operations:
 [gh]: https://github.com/JJWesterkamp/avl-bst
 
 
-[Unreleased]: https://github.com/JJWesterkamp/avl-bst/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/JJWesterkamp/avl-bst/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/JJWesterkamp/avl-bst/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/JJWesterkamp/avl-bst/tree/v0.1.0
