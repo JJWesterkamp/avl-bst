@@ -1,5 +1,6 @@
 const { resolve } = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const webpack = require('webpack')
 
 module.exports = {
     mode: 'production',
@@ -39,5 +40,13 @@ module.exports = {
                 exclude: /node_modules/,
             }
         ],
-    }
+    },
+    plugins: [
+        new webpack.BannerPlugin([
+            `@jjwesterkamp/avl-tree`,
+            `https://jjwesterkamp.github.io/avl-tree/`,
+            `(c) 2021 Jeffrey Westerkamp`,
+            `This software may be freely distributed under the MIT license.`,
+        ].join('\n')),
+    ]
 };
