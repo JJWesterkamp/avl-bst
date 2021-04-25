@@ -17,7 +17,7 @@
   "license": "MIT",
   "main": "./cjs/index.js",
   "module": "./esm/index.js",
-  "types": "./AVLTree.d.ts",
+  "types": "./avl-bst.d.ts",
   "scripts": {
     "clean:dist": "rm -rf cjs esm umd",
     "clean:docs": "rm -rf docs",

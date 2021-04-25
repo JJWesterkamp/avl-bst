@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Renamed UMD bundle names to match the npm package name.
+- package.json path to type declarations.
 
 ## [0.1.0] (2021-04-25, initial release)
 
