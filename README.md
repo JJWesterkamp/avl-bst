@@ -1,7 +1,10 @@
 # AVL Binary search trees
 
-**Research exercise** - An AVL Binary search tree implementation in typescript.
+**In progress** - An AVL Binary search tree implementation in typescript.
 
+> This is initially foremost a research exercise, but I'm working towards a stable production-ready
+> implementation. :)
+> 
 ## Resources used
 
 - [Youtube: Lecture - 12 AVL Trees](https://www.youtube.com/watch?v=TbvhGcf6UJU)
