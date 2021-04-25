@@ -6,7 +6,12 @@
  * The public API declares all the types that are exposed through regular usage
  * of this package. All types and interfaces defined here can be used in client
  * code. The default export of the package is {@link AVLTreeFactories `AVLTreeFactories`},
- * a plain object that contains factory methods for AVL tree instances.
+ * a plain object that contains factory methods for AVL tree instances. You can import
+ * the package as follows:
+ *
+ * ```typescript
+ * import AVLTree from 'avl-bst'
+ * ```
  *
  * @module Public API
  */
@@ -44,13 +49,13 @@ export interface AVLTreeFactories {
 	 * // Note: there are multiple ways the types can be specified - pick your poison :)
 	 *
 	 * // 1. using a type guard (note the additional interface import)
-	 * const myTree: IAVLTree<number, Foo> = AVLTree.create((foo) => foo.id))
+	 * const myTree: IAVLTree<number, Foo> = AVLTree.create((foo) => foo.id)
 	 *
 	 * // 2. using explicit arguments
-	 * const myTree = AVLTree.create<number, Foo>((foo) => foo.id))
+	 * const myTree = AVLTree.create<number, Foo>((foo) => foo.id)
 	 *
 	 * // 3. inferred from the given function
-	 * const myTree = AVLTree.create((foo: Foo) => foo.id))
+	 * const myTree = AVLTree.create((foo: Foo) => foo.id)
 	 * ```
 	 * @param getKey The function that derives the key of a given value of type V
 	 * @typeParam V The type of values that are to be stored in the tree.
