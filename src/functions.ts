@@ -27,6 +27,7 @@ export const enum Ordering {
 
 /**
  * Returns the height of given node or zero if the node is `null`.
+ *
  * @category Helper
  */
 export function nodeHeight(node: Node | null): number {
@@ -36,6 +37,7 @@ export function nodeHeight(node: Node | null): number {
 /**
  * Updates the given node's height property based on the current heights
  * of its left and right subtrees.
+ *
  * @category Helper
  */
 export function updateNodeHeight(node: Node): void {
@@ -51,6 +53,7 @@ export function updateNodeHeight(node: Node): void {
  * left child is the higher height child, or a positive number if the right
  * child is the higher height child. Returns zero if either the node is `null`
  * or both its children have equal height.
+ *
  * @category Helper
  */
 export function nodeBalance(node: Node | null): number {
@@ -59,6 +62,7 @@ export function nodeBalance(node: Node | null): number {
 
 /**
  * Takes two values of type `K extends Orderable` and returns their ordering.
+ *
  * @category Helper
  */
 export function scalarCompare<K extends Ord>(ka: K, kb: K): Ordering {
@@ -68,6 +72,7 @@ export function scalarCompare<K extends Ord>(ka: K, kb: K): Ordering {
 
 /**
  * Writes the key and value (by reference) from the given `from` node to the given `to` node.
+ *
  * @category Helper
  */
 export function writeNodeContents<K extends Ord, V>({ from , to }: { from: Node<K, V>; to: Node<K, V> }): void {
@@ -79,6 +84,7 @@ export function writeNodeContents<K extends Ord, V>({ from , to }: { from: Node<
  * Returns the node within the subtree of given node that ranks lowest.
  * Returns the given node itself if it has no children, or `null`
  * if the given node is itself `null`.
+ *
  * @category Tree recursion
  */
 export function minNode<K extends Ord, V>(node: Node<K, V> | null): Node<K, V> | null {
@@ -89,6 +95,7 @@ export function minNode<K extends Ord, V>(node: Node<K, V> | null): Node<K, V> |
  * Returns the node within the subtree of given node that ranks highest.
  * Returns the given node itself if it has no children, or `null`
  * if the given node is itself `null`.
+ *
  * @category Tree recursion
  */
 export function maxNode<K extends Ord, V>(node: Node<K, V> | null): Node<K, V> | null {
@@ -112,6 +119,7 @@ export function forEach<K extends Ord, V>(node: Node<K, V> | null, fn: (node: No
 
 /**
  * Folds (reduces) the given node's subtree left-to-right using in-order traversal.
+ *
  * @category Tree recursion
  */
 export function foldNodesLeft<K extends Ord, V, T>(node: Node<K, V> | null, fn: (acc: T, curr: Node<K, V>) => T, seed: T): T {
@@ -126,6 +134,7 @@ export function foldNodesLeft<K extends Ord, V, T>(node: Node<K, V> | null, fn: 
 
 /**
  * Folds (reduces) the given node's subtree right-to-left using reversed in-order traversal.
+ *
  * @category Tree recursion
  */
 export function foldNodesRight<K extends Ord, V, T>(node: Node<K, V> | null, fn: (acc: T, curr: Node<K, V>) => T, seed: T): T {
@@ -141,6 +150,7 @@ export function foldNodesRight<K extends Ord, V, T>(node: Node<K, V> | null, fn:
 /**
  * Search a node by a given `searchKey`, matching against keys of nodes. Returns the
  * matching node if found, or `null` otherwise.
+ *
  * @category Tree recursion
  */
 export function search<K extends Ord, V>(node: Node<K, V> | null, searchKey: K): Node<K, V> | null {
@@ -163,10 +173,13 @@ export function search<K extends Ord, V>(node: Node<K, V> | null, searchKey: K):
 /**
  * Inserts the given key an corresponding value into the sub-tree of the given node.
  * Returns an array of length 2 with at:
- * - index 0 = the node that takes the place of given node after insertion and re-balancing,
+ *
+ * - `[0]` - the node that takes the place of given node after insertion and re-balancing,
  *   which might also be the given node itself.
- * - index 1 = A boolean indicating whether the new key and value were actually inserted.
+ *
+ * - `[1]` - A boolean indicating whether the new key and value were actually inserted.
  *   This will be `false` if the key was already in the tree prior to insertion.
+ *
  * @category Tree recursion
  */
  export function insert<K extends Ord, V>(key: K, val: V, node: Node<K, V> | null): [Node<K, V>, boolean] {
@@ -198,15 +211,14 @@ export function search<K extends Ord, V>(node: Node<K, V> | null, searchKey: K):
 }
 
 /**
- * Deletes the node by given key from the subtree of given node. Returns the node
- * that takes the place of the given node after deletion and re-balancing, which
- * might also be the given node itself.
+ * Deletes the node by given key from the subtree of given node. Returns an array with:
  *
- * Returns an array of length 2 with at:
- * - index 0 = the node that takes the place of given node after deletion and re-balancing,
+ * - `[0]` - the node that takes the place of given node after deletion and re-balancing,
  *   which might also be the given node itself.
- * - index 1 = A boolean indicating whether a node was actually deleted.
+ *
+ * - `[1]` - A boolean indicating whether a node was actually deleted.
  *   This will be `false` if the key was not found in the tree.
+ *
  * @category Tree recursion
  */
 export function deleteKey<K extends Ord, V>(key: K, node: Node<K, V> | null): [Node<K, V> | null, boolean] {
@@ -216,6 +228,7 @@ export function deleteKey<K extends Ord, V>(key: K, node: Node<K, V> | null): [N
 /**
  * Balances the given node if it is unbalanced. Returns the node that takes the place of the
  * given node after balancing, which is the given node itself if no balancing is required.
+ *
  * @category Helper
  */
 function balanceNode<K extends Ord, V>(node: Node<K, V>): Node<K, V> {
