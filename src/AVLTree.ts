@@ -75,10 +75,6 @@ export class AVLTree<K extends Ord, V> implements IAVLTree<K, V> {
     }
 
     public delete(key: K): boolean {
-        if (this.root === null) {
-            return false
-        }
-
         const [rootAfterDeletion, isDeleted] = deleteKey(key, this.root)
         this.root = rootAfterDeletion
         return isDeleted
