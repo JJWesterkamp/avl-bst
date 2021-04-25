@@ -9,7 +9,7 @@
  * @module Internal - AVLTree
  */
 
-import type { GetKey, IAVLTree, Ord } from '../AVLTree'
+import type { GetKey, IAVLTree, Ord } from '../avl-bst'
 import { AVLNode as Node } from './AVLNode'
 import { deleteKey, foldLeft, foldRight, traverseInOrder, insert, maxNode, minNode, search } from './functions'
 

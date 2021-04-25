@@ -1,9 +1,10 @@
+.*
+docs
 node_modules
 src
 test
-_config.yml
-.*
+jest.config.js
 tsconfig.json
-tslint.json
+typedoc.json
 webpack.config.js
 yarn.lock

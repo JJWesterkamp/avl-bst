@@ -8,7 +8,7 @@
  * @module Internal - AVLNode
  */
 
-import type { Ord } from '../AVLTree'
+import type { Ord } from '../avl-bst'
 
 
 /**

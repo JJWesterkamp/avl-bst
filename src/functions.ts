@@ -16,7 +16,7 @@
  * @module Internal - Functions
  */
 
-import type { Ord } from '../AVLTree'
+import type { Ord } from '../avl-bst'
 import { AVLNode as Node } from './AVLNode'
 
 export const enum Ordering {

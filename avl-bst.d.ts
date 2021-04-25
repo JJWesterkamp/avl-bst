@@ -35,7 +35,7 @@ export interface AVLTreeFactories {
 	 * @example
 	 * ```typescript
 	 *
-	 * import AVLTree, { IAVLTree } from '@jjwesterkamp/avl-tree'
+	 * import AVLTree, { IAVLTree } from 'avl-bst'
 	 *
 	 * interface Foo {
 	 *     id: number

@@ -43,8 +43,8 @@ module.exports = {
     },
     plugins: [
         new webpack.BannerPlugin([
-            `@jjwesterkamp/avl-tree`,
-            `https://jjwesterkamp.github.io/avl-tree/`,
+            `AVL Binary search trees`,
+            `https://jjwesterkamp.github.io/avl-bst`,
             `(c) 2021 Jeffrey Westerkamp`,
             `This software may be freely distributed under the MIT license.`,
         ].join('\n')),

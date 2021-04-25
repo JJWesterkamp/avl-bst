@@ -1,8 +1,9 @@
 {
     "out": "docs",
+    "name": "AVL Binary search trees",
     "theme": "./node_modules/@jjwesterkamp/typedoc-theme",
     "highlightTheme": "nord",
     "hideGenerator": true,
-    "entryPoints": ["./AVLTree.d.ts", "./src/AVLTree.ts", "./src/AVLNode.ts", "./src/functions.ts"],
+    "entryPoints": ["./avl-bst.d.ts", "./src/AVLTree.ts", "./src/AVLNode.ts", "./src/functions.ts"],
     "categoryOrder": ["Tree recursion", "Helper", "*"]
 }
