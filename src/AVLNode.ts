@@ -26,6 +26,13 @@ export class AVLNode<K extends Ord = Ord, V = unknown> {
     public height: number = 1
 
     /**
+     * The size of the node: the amount of nodes (including this node itself)
+     * within the node's subtree.
+     * @type {number}
+     */
+    public size: number = 1
+
+    /**
      * The left child of the node.
      */
     public left: AVLNode<K, V> | null = null

@@ -48,6 +48,16 @@ export function updateNodeHeight(node: Node): void {
 }
 
 /**
+ * Updates the given node's size property based on the current sizes
+ * of its left and right subtrees.
+ *
+ * @category Helper
+ */
+export function updateNodeSize(node: Node): void {
+    node.size = 1 + (node.left?.size ?? 0) + (node.right?.size ?? 0)
+}
+
+/**
  * Returns the given node's balance: the relationship between the heights
  * of its left and right subtrees. Returns a negative number if the node's
  * left child is the higher height child, or a positive number if the right
@@ -238,6 +248,7 @@ export function search<K extends Ord, V>(node: Node<K, V> | null, searchKey: K):
         return [node, false]
     }
 
+    updateNodeSize(node)
     updateNodeHeight(node)
     return [balanceNode(node), true]
 }
@@ -289,6 +300,7 @@ export function deleteKey<K extends Ord, V>(key: K, node: Node<K, V> | null): [N
             [node.right, isDeleted] = deleteKey(successor.key, node.right)
     }
 
+    updateNodeSize(node)
     updateNodeHeight(node)
     return [balanceNode(node), isDeleted]
 }
@@ -397,6 +409,8 @@ function balanceNode<K extends Ord, V>(node: Node<K, V>): Node<K, V> {
     R.left = node
     node.right = RL
 
+    updateNodeSize(node)
+    updateNodeSize(R)
     updateNodeHeight(node)
     updateNodeHeight(R)
 
@@ -431,6 +445,8 @@ export function rotateRight<K extends Ord, V>(node: Node<K, V>): Node<K, V> {
     L.right = node
     node.left = LR
 
+    updateNodeSize(node)
+    updateNodeSize(L)
     updateNodeHeight(node)
     updateNodeHeight(L)
 

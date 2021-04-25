@@ -92,6 +92,11 @@ export interface IAVLTree<K extends Ord, V> {
 	isEmpty(): boolean
 
 	/**
+	 * Returns the size of the tree: the amount of nodes contained.
+	 */
+	size(): number
+
+	/**
 	 * Returns the value within the tree that ranks lowest, or `null`
 	 * if the tree is empty.
 	 */
