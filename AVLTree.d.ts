@@ -39,8 +39,8 @@ export interface AVLTreeFactories {
 	 * // 3. inferred from the given function
 	 * const myTree = AVLTree.create((foo: Foo) => foo.id))
 	 * ```
-	 * @param getKey The function that derives the key of a given value of type T
-	 * @typeParam T The type of values that are to be stored in the tree.
+	 * @param getKey The function that derives the key of a given value of type V
+	 * @typeParam V The type of values that are to be stored in the tree.
 	 * @typeParam K The key type that is derived from tree values, in order to compare their order.
 	 */
  	create<K extends Ord, V>(getKey: GetKey<K, V>): IAVLTree<K, V>
@@ -55,7 +55,7 @@ export interface AVLTreeFactories {
 	 * const scalarTree = AVLTree.scalar<number>()
 	 * ```
 	 *
-	 * @typeParam T The (scalar, orderable) type of tree values.
+	 * @typeParam V The (scalar, orderable) type of tree values.
 	 */
 	scalar<V extends Ord>(): IAVLTree<V, V>
 }
@@ -90,8 +90,7 @@ export interface IAVLTree<K extends Ord, V> {
 	search(key: K): V | null
 
 	/**
-	 * Performs in-order traversal of the given node's subtree, applying the given `fn`
-	 * to each contained value.
+	 * Performs in-order traversal of the tree, applying the given `fn` to each contained value.
 	 *
 	 * @param fn The callback function to run for each value in the tree.
 	 */
@@ -131,14 +130,16 @@ export interface IAVLTree<K extends Ord, V> {
 	 * Inserts a new value into the tree.
 	 * @return A boolean that indicates whether a node was inserted:
 	 * 		   `false` if the key derived from given value is already
-	 *         in the tree.
+	 *         in the tree, or `true` otherwise.
 	 */
 	insert(value: V): boolean
 
 	/**
 	 * Deletes the node with given key from the tree.
+	 * @return A boolean that indicates whether a node was deleted:
+	 * 		   `false` if the given key was not found in the tree, or `true` otherwise.
 	 */
-	delete(key: K): void
+	delete(key: K): boolean
 }
 
 declare const factories: AVLTreeFactories
