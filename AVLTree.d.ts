@@ -102,20 +102,20 @@ export interface IAVLTree<K extends Ord, V> {
 	 *
 	 * @param fn 	 The accumulator function.
 	 * @param seed 	 The initial value.
-	 * @typeParam U  The type of the accumulation (and the seed).
+	 * @typeParam T  The type of the accumulation (and the seed).
 	 * @return 		 The accumulation of the tree.
 	 */
-	foldLeft<U>(fn: (acc: U, curr: V) => U, seed: U): U
+	foldLeft<T>(fn: (acc: T, curr: V) => T, seed: T): T
 
 	/**
 	 * Folds (reduces) the tree right-to-left using reversed in-order traversal.
 	 *
 	 * @param fn 	 The accumulator function.
 	 * @param seed 	 The initial value.
-	 * @typeParam U  The type of the accumulation (and the seed).
+	 * @typeParam T  The type of the accumulation (and the seed).
 	 * @return 		 The accumulation value.
 	 */
-	foldRight<U>(fn: (acc: U, curr: V) => U, seed: U): U
+	foldRight<T>(fn: (acc: T, curr: V) => T, seed: T): T
 
 	/**
 	 * Returns a list of all keys within the tree as an array, in-order.
