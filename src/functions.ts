@@ -139,10 +139,11 @@ export function foldNodesRight<K extends Ord, V, T>(node: Node<K, V> | null, fn:
 }
 
 /**
- * Search a value by a given `searchKey`, matching against keys of nodes.
+ * Search a node by a given `searchKey`, matching against keys of nodes. Returns the
+ * matching node if found, or `null` otherwise.
  * @category Tree recursion
  */
-export function search<K extends Ord, V>(node: Node<K, V> | null, searchKey: K): V | null {
+export function search<K extends Ord, V>(node: Node<K, V> | null, searchKey: K): Node<K, V> | null {
     if (node === null) {
         return null
     }
@@ -152,7 +153,7 @@ export function search<K extends Ord, V>(node: Node<K, V> | null, searchKey: K):
             return search(node.left, searchKey)
 
         case Ordering.EQ:
-            return node.value
+            return node
 
         case Ordering.GT:
             return search(node.right, searchKey)

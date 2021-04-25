@@ -37,7 +37,7 @@ export class AVLTree<K extends Ord, V> implements IAVLTree<K, V> {
     }
 
     public search(key: K): V | null {
-        return search(this.root, key)
+        return search(this.root, key)?.value ?? null
     }
 
     public forEach(fn: (element: V) => void): void {
