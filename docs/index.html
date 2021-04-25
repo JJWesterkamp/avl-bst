@@ -61,26 +61,132 @@
 				<a href="#avl-binary-search-trees" id="avl-binary-search-trees" style="color: inherit; text-decoration: none;">
 					<h1>AVL Binary search trees</h1>
 				</a>
-				<p><strong>In progress</strong> - An AVL Binary search tree implementation in typescript.</p>
+				<p>An AVL Binary search tree implementation in typescript.</p>
+				<p><a href="https://www.npmjs.com/package/avl-bst"><img src="https://badgen.net/npm/v/avl-bst?label=npm%20package&color=green&cache=600" alt="npm version"></a>
+				<a href="https://github.com/JJWesterkamp/avl-tree/blob/master/LICENSE"><img src="https://badgen.net/badge/license/MIT/green" alt="MIT"></a></p>
 				<blockquote>
 					<p>This is initially foremost a research exercise, but I&#39;m working towards a stable production-ready
-					implementation. :)</p>
+					implementation.</p>
 				</blockquote>
-				<a href="#resources-used" id="resources-used" style="color: inherit; text-decoration: none;">
-					<h2>Resources used</h2>
+				<a href="#quick-links" id="quick-links" style="color: inherit; text-decoration: none;">
+					<h2>Quick links</h2>
 				</a>
 				<ul>
-					<li><a href="https://www.youtube.com/watch?v=TbvhGcf6UJU">Youtube: Lecture - 12 AVL Trees</a></li>
-					<li><a href="https://www.geeksforgeeks.org/avl-tree-set-1-insertion">AVL Tree | Set 1 (Insertion)</a></li>
-					<li><a href="https://www.geeksforgeeks.org/avl-tree-set-2-deletion/?ref=lbp">AVL Tree | Set 2 (Deletion)</a></li>
-					<li><a href="https://www.geeksforgeeks.org/inorder-successor-in-binary-search-tree/">Inorder Successor in Binary Search Tree</a></li>
+					<li><a href="https://www.npmjs.com/package/avl-bst">npm</a></li>
+					<li><a href="https://github.com/JJWesterkamp/avl-bst">Github</a></li>
+					<li><a href="https://jjwesterkamp.github.io/avl-bst/index.html">API documentation</a></li>
+					<li><a href="https://github.com/JJWesterkamp/avl-bst/blob/master/CHANGELOG.md">Changelog</a></li>
 				</ul>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<p>Install the package with npm:</p>
+				<pre><code class="language-text">npm install --save avl-bst
+</code></pre>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h2>Usage</h2>
+				</a>
+				<p>I will add more elaborate documentation here shortly. For now, you can visit the <a href="https://jjwesterkamp.github.io/avl-bst/index.html">API documentation</a>, and the
+					<a href="https://jjwesterkamp.github.io/avl-bst/modules/public_api.html">public API page</a> in particular for further directions on how to use this package.
+				Below is a brief overview of the available methods on tree instances.</p>
+				<p>You can import the package and instantiate a new tree as follows:</p>
+				<pre><code class="language-typescript"><span style="color: #81A1C1">import</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">AVLTree</span><span style="color: #D8DEE9FF"> </span><span style="color: #81A1C1">from</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&#039;</span><span style="color: #A3BE8C">avl-bst</span><span style="color: #ECEFF4">&#039;</span>
+
+<span style="color: #81A1C1">interface</span><span style="color: #D8DEE9FF"> </span><span style="color: #8FBCBB">Foo</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">{</span>
+<span style="color: #D8DEE9FF">    id</span><span style="color: #81A1C1">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #8FBCBB">number</span><span style="color: #81A1C1">;</span>
+<span style="color: #D8DEE9FF">    name</span><span style="color: #81A1C1">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #8FBCBB">string</span><span style="color: #81A1C1">;</span>
+<span style="color: #ECEFF4">}</span>
+
+<span style="color: #616E88">// Create a new tree, providing a function that determines the key</span>
+<span style="color: #616E88">// for values of type Foo:</span>
+<span style="color: #81A1C1">const</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">tree</span><span style="color: #D8DEE9FF"> </span><span style="color: #81A1C1">=</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">AVLTree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">create</span><span style="color: #ECEFF4">&lt;</span><span style="color: #8FBCBB">number</span><span style="color: #ECEFF4">,</span><span style="color: #D8DEE9FF"> </span><span style="color: #8FBCBB">Foo</span><span style="color: #ECEFF4">&gt;</span><span style="color: #D8DEE9FF">(</span><span style="color: #ECEFF4">(</span><span style="color: #D8DEE9">foo</span><span style="color: #ECEFF4">)</span><span style="color: #D8DEE9FF"> </span><span style="color: #81A1C1">=&gt;</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">foo</span><span style="color: #ECEFF4">.</span><span style="color: #D8DEE9">id</span><span style="color: #D8DEE9FF">) </span>
+<span style="color: #ECEFF4">    </span><span style="color: #616E88">// &gt; IAVLTree&lt;number, Foo&gt;</span>
+
+<span style="color: #616E88">// Alternatively you can create a search tree for strings or numbers</span>
+<span style="color: #616E88">// with the scalar() method, which does not require the function to</span>
+<span style="color: #616E88">// derive a key from complex values:</span>
+<span style="color: #81A1C1">const</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">scalarTree</span><span style="color: #D8DEE9FF"> </span><span style="color: #81A1C1">=</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">AVLTree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">scalar</span><span style="color: #ECEFF4">&lt;</span><span style="color: #8FBCBB">number</span><span style="color: #ECEFF4">&gt;</span><span style="color: #D8DEE9FF">()</span>
+<span style="color: #ECEFF4">    </span><span style="color: #616E88">// &gt; IAVLTree&lt;number, number&gt;</span>
+</code></pre>
+				<p><strong>Inserting values</strong></p>
+				<p><em>O (log n)</em></p>
+				<pre><code class="language-typescript"><span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">insert</span><span style="color: #D8DEE9FF">(</span><span style="color: #ECEFF4">{</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">id</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #B48EAD">8</span><span style="color: #ECEFF4">,</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">name</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&#039;</span><span style="color: #A3BE8C">a</span><span style="color: #ECEFF4">&#039;</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">}</span><span style="color: #D8DEE9FF">)   </span><span style="color: #616E88">// &gt; true</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">insert</span><span style="color: #D8DEE9FF">(</span><span style="color: #ECEFF4">{</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">id</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #B48EAD">3</span><span style="color: #ECEFF4">,</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">name</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&#039;</span><span style="color: #A3BE8C">b</span><span style="color: #ECEFF4">&#039;</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">}</span><span style="color: #D8DEE9FF">)   </span><span style="color: #616E88">// &gt; true</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">insert</span><span style="color: #D8DEE9FF">(</span><span style="color: #ECEFF4">{</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">id</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #B48EAD">19</span><span style="color: #ECEFF4">,</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">name</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&#039;</span><span style="color: #A3BE8C">c</span><span style="color: #ECEFF4">&#039;</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">}</span><span style="color: #D8DEE9FF">)  </span><span style="color: #616E88">// &gt; true</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">insert</span><span style="color: #D8DEE9FF">(</span><span style="color: #ECEFF4">{</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">id</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #B48EAD">2</span><span style="color: #ECEFF4">,</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">name</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&#039;</span><span style="color: #A3BE8C">d</span><span style="color: #ECEFF4">&#039;</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">}</span><span style="color: #D8DEE9FF">)   </span><span style="color: #616E88">// &gt; true</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">insert</span><span style="color: #D8DEE9FF">(</span><span style="color: #ECEFF4">{</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">id</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #B48EAD">11</span><span style="color: #ECEFF4">,</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">name</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&#039;</span><span style="color: #A3BE8C">e</span><span style="color: #ECEFF4">&#039;</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">}</span><span style="color: #D8DEE9FF">)  </span><span style="color: #616E88">// &gt; true</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">insert</span><span style="color: #D8DEE9FF">(</span><span style="color: #ECEFF4">{</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">id</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #B48EAD">5</span><span style="color: #ECEFF4">,</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">name</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&#039;</span><span style="color: #A3BE8C">f</span><span style="color: #ECEFF4">&#039;</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">}</span><span style="color: #D8DEE9FF">)   </span><span style="color: #616E88">// &gt; true</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">insert</span><span style="color: #D8DEE9FF">(</span><span style="color: #ECEFF4">{</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">id</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #B48EAD">7</span><span style="color: #ECEFF4">,</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">name</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&#039;</span><span style="color: #A3BE8C">g</span><span style="color: #ECEFF4">&#039;</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">}</span><span style="color: #D8DEE9FF">)   </span><span style="color: #616E88">// &gt; true</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">insert</span><span style="color: #D8DEE9FF">(</span><span style="color: #ECEFF4">{</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">id</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #B48EAD">14</span><span style="color: #ECEFF4">,</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">name</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&#039;</span><span style="color: #A3BE8C">h</span><span style="color: #ECEFF4">&#039;</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">}</span><span style="color: #D8DEE9FF">)  </span><span style="color: #616E88">// &gt; true</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">insert</span><span style="color: #D8DEE9FF">(</span><span style="color: #ECEFF4">{</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">id</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #B48EAD">18</span><span style="color: #ECEFF4">,</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">name</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&#039;</span><span style="color: #A3BE8C">i</span><span style="color: #ECEFF4">&#039;</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">}</span><span style="color: #D8DEE9FF">)  </span><span style="color: #616E88">// &gt; true</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">insert</span><span style="color: #D8DEE9FF">(</span><span style="color: #ECEFF4">{</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">id</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #B48EAD">9</span><span style="color: #ECEFF4">,</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">name</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&#039;</span><span style="color: #A3BE8C">j</span><span style="color: #ECEFF4">&#039;</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">}</span><span style="color: #D8DEE9FF">)   </span><span style="color: #616E88">// &gt; true</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">insert</span><span style="color: #D8DEE9FF">(</span><span style="color: #ECEFF4">{</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">id</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #B48EAD">15</span><span style="color: #ECEFF4">,</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">name</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&#039;</span><span style="color: #A3BE8C">k</span><span style="color: #ECEFF4">&#039;</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">}</span><span style="color: #D8DEE9FF">)  </span><span style="color: #616E88">// &gt; true</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">insert</span><span style="color: #D8DEE9FF">(</span><span style="color: #ECEFF4">{</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">id</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #B48EAD">10</span><span style="color: #ECEFF4">,</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">name</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&#039;</span><span style="color: #A3BE8C">l</span><span style="color: #ECEFF4">&#039;</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">}</span><span style="color: #D8DEE9FF">)  </span><span style="color: #616E88">// &gt; true</span>
+
+<span style="color: #616E88">// Inserting values with duplicate keys is not possible:</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">insert</span><span style="color: #D8DEE9FF">(</span><span style="color: #ECEFF4">{</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">id</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #B48EAD">10</span><span style="color: #ECEFF4">,</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">name</span><span style="color: #ECEFF4">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&#039;</span><span style="color: #A3BE8C">m</span><span style="color: #ECEFF4">&#039;</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">}</span><span style="color: #D8DEE9FF">)  </span><span style="color: #616E88">// &gt; false</span>
+</code></pre>
+				<p><strong>Searching values</strong></p>
+				<p><em>O (log n)</em></p>
+				<pre><code class="language-typescript"><span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">search</span><span style="color: #D8DEE9FF">(</span><span style="color: #B48EAD">14</span><span style="color: #D8DEE9FF">)  </span><span style="color: #616E88">// &gt; { id: 14, name: &#039;h&#039; }</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">search</span><span style="color: #D8DEE9FF">(</span><span style="color: #B48EAD">100</span><span style="color: #D8DEE9FF">) </span><span style="color: #616E88">// &gt; null</span>
+</code></pre>
+				<p><strong>To get the min and max values (by key):</strong></p>
+				<p><em>O (log n)</em></p>
+				<pre><code class="language-typescript"><span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">minValue</span><span style="color: #D8DEE9FF">() </span><span style="color: #616E88">// &gt; { id: 2, name: &#039;d&#039; }</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">maxValue</span><span style="color: #D8DEE9FF">() </span><span style="color: #616E88">// &gt; { id: 19, name: &#039;c&#039; }</span>
+</code></pre>
+				<p><strong>Get lists of keys or values</strong></p>
+				<p><em>O (n)</em></p>
+				<pre><code class="language-typescript"><span style="color: #616E88">// Get all keys in the tree, in-order:</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">keys</span><span style="color: #D8DEE9FF">() </span><span style="color: #616E88">// &gt; [2, 3, 5, 7, 8, 9, 10, 11, 14, 15, 18, 19]</span>
+
+<span style="color: #616E88">// Get all the values in the tree, in-order:</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">values</span><span style="color: #D8DEE9FF">() </span><span style="color: #616E88">/* &gt; </span>
+<span style="color: #616E88">[</span>
+<span style="color: #616E88">  { id: 2, name: &#039;d&#039; },</span>
+<span style="color: #616E88">  { id: 3, name: &#039;b&#039; },</span>
+<span style="color: #616E88">  { id: 5, name: &#039;f&#039; },</span>
+<span style="color: #616E88">  { id: 7, name: &#039;g&#039; },</span>
+<span style="color: #616E88">  { id: 8, name: &#039;a&#039; },</span>
+<span style="color: #616E88">  { id: 9, name: &#039;j&#039; },</span>
+<span style="color: #616E88">  { id: 10, name: &#039;l&#039; },</span>
+<span style="color: #616E88">  { id: 11, name: &#039;e&#039; },</span>
+<span style="color: #616E88">  { id: 14, name: &#039;h&#039; },</span>
+<span style="color: #616E88">  { id: 15, name: &#039;k&#039; },</span>
+<span style="color: #616E88">  { id: 18, name: &#039;i&#039; },</span>
+<span style="color: #616E88">  { id: 19, name: &#039;c&#039; }</span>
+<span style="color: #616E88">]</span>
+<span style="color: #616E88">*/</span>
+</code></pre>
+				<p><strong>To iterate over all values, in-order:</strong></p>
+				<p><em>O (n)</em></p>
+				<pre><code class="language-typescript"><span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">forEach</span><span style="color: #D8DEE9FF">(</span><span style="color: #ECEFF4">(</span><span style="color: #D8DEE9">value</span><span style="color: #81A1C1">:</span><span style="color: #D8DEE9FF"> </span><span style="color: #8FBCBB">Foo</span><span style="color: #ECEFF4">)</span><span style="color: #D8DEE9FF"> </span><span style="color: #81A1C1">=&gt;</span><span style="color: #D8DEE9FF"> </span><span style="color: #88C0D0">doSomething</span><span style="color: #D8DEE9FF">(</span><span style="color: #D8DEE9">value</span><span style="color: #D8DEE9FF">))</span>
+</code></pre>
+				<p><strong>To fold / reduce the tree:</strong> </p>
+				<p><em>O (n)</em></p>
+				<pre><code class="language-typescript"><span style="color: #616E88">// Fold (reduce) the tree left-to-right:</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">foldLeft</span><span style="color: #D8DEE9FF">(</span><span style="color: #ECEFF4">(</span><span style="color: #D8DEE9">acc</span><span style="color: #ECEFF4">,</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">curr</span><span style="color: #ECEFF4">)</span><span style="color: #D8DEE9FF"> </span><span style="color: #81A1C1">=&gt;</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">acc</span><span style="color: #D8DEE9FF"> </span><span style="color: #81A1C1">+</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&#039;</span><span style="color: #A3BE8C">-</span><span style="color: #ECEFF4">&#039;</span><span style="color: #D8DEE9FF"> </span><span style="color: #81A1C1">+</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">curr</span><span style="color: #ECEFF4">.</span><span style="color: #D8DEE9">name</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">,</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&#039;</span><span style="color: #A3BE8C">NAMES</span><span style="color: #ECEFF4">&#039;</span><span style="color: #D8DEE9FF">)</span>
+<span style="color: #616E88">// &gt; &#039;NAMES-d-b-f-g-a-j-l-e-h-k-i-c&#039;</span>
+
+<span style="color: #616E88">// Fold (reduce) the tree from right-to-left:</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">foldRight</span><span style="color: #D8DEE9FF">(</span><span style="color: #ECEFF4">(</span><span style="color: #D8DEE9">acc</span><span style="color: #ECEFF4">,</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">curr</span><span style="color: #ECEFF4">)</span><span style="color: #D8DEE9FF"> </span><span style="color: #81A1C1">=&gt;</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">acc</span><span style="color: #D8DEE9FF"> </span><span style="color: #81A1C1">+</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&#039;</span><span style="color: #A3BE8C">-</span><span style="color: #ECEFF4">&#039;</span><span style="color: #D8DEE9FF"> </span><span style="color: #81A1C1">+</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">curr</span><span style="color: #ECEFF4">.</span><span style="color: #D8DEE9">name</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">,</span><span style="color: #D8DEE9FF"> </span><span style="color: #ECEFF4">&#039;</span><span style="color: #A3BE8C">REVERSED-NAMES</span><span style="color: #ECEFF4">&#039;</span><span style="color: #D8DEE9FF">)</span>
+<span style="color: #616E88">// &gt; &#039;REVERSED-NAMES-c-i-k-h-e-l-j-a-g-f-b-d&#039;</span>
+</code></pre>
+				<p><strong>To delete values:</strong></p>
+				<p><em>O (log n)</em></p>
+				<pre><code class="language-typescript"><span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">delete</span><span style="color: #D8DEE9FF">(</span><span style="color: #B48EAD">10</span><span style="color: #D8DEE9FF">) </span><span style="color: #616E88">// &gt; true</span>
+
+<span style="color: #616E88">// Returns false if no node to be deleted was found:</span>
+<span style="color: #D8DEE9">tree</span><span style="color: #ECEFF4">.</span><span style="color: #88C0D0">delete</span><span style="color: #D8DEE9FF">(</span><span style="color: #B48EAD">10</span><span style="color: #D8DEE9FF">) </span><span style="color: #616E88">// &gt; false</span>
+</code></pre>
 				<a href="#development--build" id="development--build" style="color: inherit; text-decoration: none;">
 					<h2>Development / build</h2>
 				</a>
-				<p>To build the package clone the repository and then run the following command. This will build an ES module in <code>esm/</code>,
-				a CommonJS module in <code>cjs/</code>, and minified + non-minified UMD bundles in <code>umd/</code>.</p>
-				<pre><code><span style="color: #D8DEE9">$</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">npm</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">install</span><span style="color: #D8DEE9FF"> </span><span style="color: #81A1C1">&amp;&amp;</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">npm</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">run</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">build</span>
+				<p>To locally build the package, clone the repository and then run the following command.
+					This will build ES modules in <code>esm/</code>,
+				CommonJS modules in <code>cjs/</code>, and minified + non-minified UMD bundles in <code>umd/</code>.</p>
+				<pre><code><span style="color: #D8DEE9">$</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">npx</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">yarn</span><span style="color: #D8DEE9FF"> </span><span style="color: #81A1C1">&amp;&amp;</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">npx</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">yarn</span><span style="color: #D8DEE9FF"> </span><span style="color: #D8DEE9">build</span>
 </code></pre>
 				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 					<h2>License</h2>

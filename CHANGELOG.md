@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased][gh]
 
+## [0.1.0] (2021-04-25, initial release)
+
 ### Added
 
 Initial version featuring the basic BST operations:
@@ -14,3 +16,7 @@ Initial version featuring the basic BST operations:
 - Delete values
 
 [gh]: https://github.com/JJWesterkamp/avl-bst
+
+
+[Unreleased]: https://github.com/JJWesterkamp/avl-bst/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/JJWesterkamp/avl-bst/tree/v0.1.0
