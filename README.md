@@ -69,6 +69,14 @@ tree.insert({ id: 10, name: 'l' })  // > true
 tree.insert({ id: 10, name: 'm' })  // > false
 ```
 
+**Checking the size of the tree**
+
+_O (1)_
+```typescript
+tree.size() // > 12
+tree.isEmpty() // false
+```
+
 **Searching values**
 
 _O (log n)_
