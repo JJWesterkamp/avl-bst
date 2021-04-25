@@ -107,14 +107,46 @@ export function maxNode<K extends Ord, V>(node: Node<K, V> | null): Node<K, V> |
  * `fn` to each contained value.
  * @category Tree recursion
  */
-export function forEach<K extends Ord, V>(node: Node<K, V> | null, fn: (node: Node<K, V>) => void): void {
+export function traverseInOrder<K extends Ord, V>(node: Node<K, V> | null, fn: (node: Node<K, V>) => void): void {
     if (node === null) {
         return
     }
 
-    forEach(node.left, fn)
+    traverseInOrder(node.left, fn)
     fn(node)
-    forEach(node.right, fn)
+    traverseInOrder(node.right, fn)
+}
+
+
+/**
+ * Performs pre-order traversal of the given node's subtree, applying the given
+ * `fn` to each contained value.
+ * @category Tree recursion
+ */
+export function traversePreOrder<K extends Ord, V>(node: Node<K, V> | null, fn: (node: Node<K, V>) => void): void {
+    if (node === null) {
+        return
+    }
+
+    fn(node)
+    traversePreOrder(node.left, fn)
+    traversePreOrder(node.right, fn)
+}
+
+
+/**
+ * Performs post-order traversal of the given node's subtree, applying the given
+ * `fn` to each contained value.
+ * @category Tree recursion
+ */
+export function traversePostOrder<K extends Ord, V>(node: Node<K, V> | null, fn: (node: Node<K, V>) => void): void {
+    if (node === null) {
+        return
+    }
+
+    traversePostOrder(node.left, fn)
+    traversePostOrder(node.right, fn)
+    fn(node)
 }
 
 /**
@@ -122,14 +154,14 @@ export function forEach<K extends Ord, V>(node: Node<K, V> | null, fn: (node: No
  *
  * @category Tree recursion
  */
-export function foldNodesLeft<K extends Ord, V, T>(node: Node<K, V> | null, fn: (acc: T, curr: Node<K, V>) => T, seed: T): T {
+export function foldLeft<K extends Ord, V, T>(node: Node<K, V> | null, fn: (acc: T, node: Node<K, V>) => T, seed: T): T {
     if (node === null) {
         return seed
     }
 
-    seed = foldNodesLeft(node.left, fn, seed)
+    seed = foldLeft(node.left, fn, seed)
     seed = fn(seed, node)
-    return foldNodesLeft(node.right, fn, seed)
+    return foldLeft(node.right, fn, seed)
 }
 
 /**
@@ -137,14 +169,14 @@ export function foldNodesLeft<K extends Ord, V, T>(node: Node<K, V> | null, fn: 
  *
  * @category Tree recursion
  */
-export function foldNodesRight<K extends Ord, V, T>(node: Node<K, V> | null, fn: (acc: T, curr: Node<K, V>) => T, seed: T): T {
+export function foldRight<K extends Ord, V, T>(node: Node<K, V> | null, fn: (acc: T, node: Node<K, V>) => T, seed: T): T {
     if (node === null) {
         return seed
     }
 
-    seed = foldNodesRight(node.right, fn, seed)
+    seed = foldRight(node.right, fn, seed)
     seed = fn(seed, node)
-    return foldNodesRight(node.left, fn, seed)
+    return foldRight(node.left, fn, seed)
 }
 
 /**
@@ -250,6 +282,7 @@ export function deleteKey<K extends Ord, V>(key: K, node: Node<K, V> | null): [N
             if (either(hasLeft, hasRight)) {
                 return [node.left ?? node.right, true]
             }
+
             // Two child case - must re-balance afterwards
             const successor = minNode(node.right)!
             writeNodeContents({ from: successor, to: node });

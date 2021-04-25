@@ -11,7 +11,7 @@
 
 import type { GetKey, IAVLTree, Ord } from '../AVLTree'
 import { AVLNode as Node } from './AVLNode'
-import { deleteKey, foldNodesLeft, foldNodesRight, forEach, insert, maxNode, minNode, search } from './functions'
+import { deleteKey, foldLeft, foldRight, traverseInOrder, insert, maxNode, minNode, search } from './functions'
 
 /**
  * The class implementation of the public API interface {@link IAVLTree `IAVLTree`}.
@@ -41,15 +41,15 @@ export class AVLTree<K extends Ord, V> implements IAVLTree<K, V> {
     }
 
     public forEach(fn: (element: V) => void): void {
-        forEach(this.root, (node) => fn(node.value))
+        traverseInOrder(this.root, (node) => fn(node.value))
     }
 
     public foldLeft<T>(fn: (acc: T, value: V) => T, seed: T): T {
-        return foldNodesLeft(this.root, (acc, node) => fn(acc, node.value), seed)
+        return foldLeft(this.root, (acc, node) => fn(acc, node.value), seed)
     }
 
     public foldRight<T>(fn: (acc: T, value: V) => T, seed: T): T {
-        return foldNodesRight(this.root, (acc, node) => fn(acc, node.value), seed)
+        return foldRight(this.root, (acc, node) => fn(acc, node.value), seed)
     }
 
     public keys(): K[] {
@@ -77,7 +77,7 @@ export class AVLTree<K extends Ord, V> implements IAVLTree<K, V> {
     }
 
     private toArray<T>(transformer: (node: Node<K, V>) => T): T[] {
-        return foldNodesLeft<K, V, T[]>(this.root, (acc, node) => {
+        return foldLeft<K, V, T[]>(this.root, (acc, node) => {
             acc.push(transformer(node))
             return acc
         }, [])
