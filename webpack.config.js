@@ -16,8 +16,8 @@ module.exports = {
         })]
     },
     entry: {
-        "avl-tree": "./src/index.ts",
-        "avl-tree.min": "./src/index.ts",
+        "avl-bst": "./src/index.ts",
+        "avl-bst.min": "./src/index.ts",
     },
     output: {
         path: resolve(__dirname, 'umd'),
