@@ -1,16 +1,10 @@
 /**
- * ------------------------------------------------------------------------------
- * ## AVLTree functions
- * ------------------------------------------------------------------------------
+ * The internal recursive functions used by the AVLTree class, and additional
+ * helper functions. These perform outside of the tree class context, and take
+ * nodes to operate on. This makes them reusable for many more applications.
  *
- * The functional recursive algorithms used by the AVLTree class, and
- * some additional helper functions. These perform outside of the tree
- * class context, and take nodes to operate on. This makes them reusable
- * for many more applications.
- *
- * While the AVLTree interface only exposes its contained values -- I
- * consider nodes an implementation detail -- the functions here return
- * nodes with these values within, so that internally we can easily
+ * While the AVLTree interface only exposes its contained values the functions
+ * here return nodes with these values within, so that internally we can easily
  * traverse subtrees and otherwise operate on them.
  *
  * @module Internal - Functions

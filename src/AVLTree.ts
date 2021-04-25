@@ -1,8 +1,4 @@
 /**
- * ------------------------------------------------------------------------------
- * ## AVLTree class
- * ------------------------------------------------------------------------------
- *
  * This module holds the class implementation of the public API interface
  * {@link IAVLTree `IAVLTree`}.
  *

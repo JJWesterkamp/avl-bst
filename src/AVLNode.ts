@@ -1,8 +1,4 @@
 /**
- * ------------------------------------------------------------------------------
- * ## AVLNode class
- * ------------------------------------------------------------------------------
- *
  * This module holds the class implementation of the AVLNode tree nodes.
  *
  * @module Internal - AVLNode

@@ -1,8 +1,4 @@
 /**
- * ------------------------------------------------------------------------------
- * ## AVLTree public API
- * ------------------------------------------------------------------------------
- *
  * The public API declares all the types that are exposed through regular usage
  * of this package. All types and interfaces defined here can be used in client
  * code. The default export of the package is {@link AVLTreeFactories `AVLTreeFactories`},
