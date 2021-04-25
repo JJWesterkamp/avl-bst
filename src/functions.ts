@@ -1,12 +1,25 @@
 import type { Ord } from '../AVLTree'
 import { Node } from './Node'
 
+// ------------------------------------------------------------------------------
+//      AVLTree functions
+// ------------------------------------------------------------------------------
+//
+//      The functional recursive algorithms used by the AVLTree class, and
+//      some additional helper functions. These perform outside of the tree
+//      class context, and take nodes to operate on. This makes them reusable
+//      for many more applications.
+//
+//      While the AVLTree interface only exposes its contained values -- I
+//      consider nodes an implementation detail -- the functions here return
+//      nodes with these values within, so that internally we can easily
+//      traverse subtrees and otherwise operate on them.
+
 export const enum Ordering {
     LT = -1,
     EQ = 0,
     GT = 1,
 }
-
 
 /**
  * Returns the height of given node or zero if the node is `null`.
@@ -126,7 +139,7 @@ export function search<K extends Ord, V>(node: Node<K, V> | null, searchKey: K):
 /**
  * Inserts the given key an corresponding value into the sub-tree of the given node.
  * Returns an array of length 2 with at:
- * - index 0 = the node that takes the place of given node after insertion and rebalancing,
+ * - index 0 = the node that takes the place of given node after insertion and re-balancing,
  *   which might also be the given node itself.
  * - index 1 = A boolean indicating whether the new key and value were actually inserted.
  *   This will be `false` if the key was already in the tree prior to insertion.
@@ -161,7 +174,7 @@ export function search<K extends Ord, V>(node: Node<K, V> | null, searchKey: K):
 
 /**
  * Deletes the node by given key from the subtree of given node. Returns the node
- * that takes the place of the given node after deletion and rebalancing, which
+ * that takes the place of the given node after deletion and re-balancing, which
  * might also be the given node itself.
  */
 export function deleteKey<K extends Ord, V>(key: K, node: Node<K, V>): Node<K, V> {
