@@ -39,7 +39,7 @@ export function nodeBalance(node: Node | null): number {
  */
 export function scalarCompare<K extends Ord>(ka: K, kb: K): Ordering {
     return ka < kb ? Ordering.LT :
-        ka > kb ? Ordering.GT : Ordering.EQ
+           ka > kb ? Ordering.GT : Ordering.EQ
 }
 
 /**
@@ -121,21 +121,133 @@ export function search<K extends Ord, V>(node: Node<K, V> | null, searchKey: K):
 }
 
 /**
- * Performs a left rotation on the given node.
+ * Inserts the given key an corresponding value into the sub-tree of the given node.
+ * Returns the node that takes the place of given node after insertion and rebalancing,
+ * which might also be the given node itself.
+ */
+ export function insert<K extends Ord, V>(key: K, val: V, node: Node<K, V> | null): Node<K, V> {
+    if (node === null) {
+        return new Node(key, val)
+    }
+
+    switch (scalarCompare(key, node.key)) {
+        // Currently skips silently when the key already exists.
+        case Ordering.EQ:
+            return node
+
+        case Ordering.LT:
+            node.left = insert(key, val, node.left)
+            break
+
+        case Ordering.GT:
+            node.right = insert(key, val, node.right)
+            break
+    }
+
+    updateNodeHeight(node)
+    return balanceNode(node)
+}
+
+/**
+ * Deletes the node by given key from the subtree of given node. Returns the node
+ * that takes the place of the given node after deletion and rebalancing, which
+ * might also be the given node itself.
+ */
+export function deleteKey<K extends Ord, V>(key: K, node: Node<K, V>): Node<K, V> {
+
+}
+
+/**
+ * Balances the given node if it is unbalanced. Returns the node that takes the place of the
+ * given node after balancing, which is the given node itself if no balancing is required.
+ */
+function balanceNode<K extends Ord, V>(node: Node<K, V>): Node<K, V> {
+    const zBalance = nodeBalance(node)
+    const lBalance = nodeBalance(node.left)
+    const rBalance = nodeBalance(node.right)
+
+    /*────────────────────────────────────────────────────────────────────────────────────────┐
+    │                                  Left - Left case                                       │
+    ├─────────────────────────────────────────────────────────────────────────────────────────┤
+    │                      z                                      y                           │
+    │                     / \                                   /   \                         │
+    │                    y   T4      Right Rotate (z)          x      z                       │
+    │                   / \          - - - - - - - - ->      /  \    /  \                     │
+    │                  x   T3                               T1  T2  T3  T4                    │
+    │                 / \                                                                     │
+    │               T1   T2                                                                   │
+    └────────────────────────────────────────────────────────────────────────────────────────*/
+    if (zBalance < -1 && lBalance <= 0) {
+        return rotateRight(node)
+    }
+
+    /*────────────────────────────────────────────────────────────────────────────────────────┐
+    │                                 Left - Right case                                       │
+    ├─────────────────────────────────────────────────────────────────────────────────────────┤
+    │         z                                  z                                x           │
+    │        / \                               /   \                             /  \         │
+    │       y   T4    Left Rotate (y)         x     T4   Right Rotate(z)       y      z       │
+    │      / \        - - - - - - - - ->     /  \        - - - - - - - ->     / \    / \      │
+    │    T1   x                             y    T3                         T1  T2  T3  T4    │
+    │        / \                           / \                                                │
+    │      T2   T3                       T1   T2                                              │
+    └────────────────────────────────────────────────────────────────────────────────────────*/
+    if (zBalance < -1 && lBalance > 0) {
+        node.left = rotateLeft(node.left!)
+        return rotateRight(node)
+    }
+
+    /*────────────────────────────────────────────────────────────────────────────────────────┐
+    │                                  Right - Left case                                      │
+    ├─────────────────────────────────────────────────────────────────────────────────────────┤
+    │      z                                z                                 x               │
+    │     / \                              / \                               /  \             │
+    │   T1   y     Right Rotate (y)      T1   x        Left Rotate(z)      z      y           │
+    │       / \    - - - - - - - - ->       /  \     - - - - - - - ->     / \    / \          │
+    │      x   T4                         T2    y                       T1  T2  T3  T4        │
+    │     / \                                  /  \                                           │
+    │   T2   T3                               T3   T4                                         │
+    └────────────────────────────────────────────────────────────────────────────────────────*/
+    if (zBalance > 1 && rBalance < 0) {
+        node.right = rotateRight(node.right!)
+        return rotateLeft(node)
+    }
+
+    /*────────────────────────────────────────────────────────────────────────────────────────┐
+    │                                 Right - Right case                                      │
+    ├─────────────────────────────────────────────────────────────────────────────────────────┤
+    │                       z                                   y                             │
+    │                      /  \                               /   \                           │
+    │                    T1    y       Left Rotate(z)        z      x                         │
+    │                         /  \     - - - - - - - ->     / \    / \                        │
+    │                       T2    x                        T1  T2 T3  T4                      │
+    │                             / \                                                         │
+    │                           T3   T4                                                       │
+    └────────────────────────────────────────────────────────────────────────────────────────*/
+    if (zBalance > 1 && rBalance >= 0) {
+        return rotateLeft(node)
+    }
+
+    return node
+}
+
+/**
+ * Performs a left rotation on the given node. Returns the node that takes the
+ * place of the given node after rotation.
  *
  * ```text
- * ┌────────────────────────────────────────────────────────────────┐
- * │        z                                      y                │
- * │       /  \                                  /   \              │
- * │      T1   y         rotateLeft(z)          z      x            │
- * │          /  \       - - - - - - - ->      / \    / \           │
- * │         T2   x                           T1  T2 T3  T4         │
- * │             / \                                                │
- * │           T3  T4                                               │
- * └────────────────────────────────────────────────────────────────┘
+ * ┌──────────────────────────────────────────────────────────────────┐
+ * │ argument -> z                                      y <- return   │
+ * │            /  \                                  /   \           │
+ * │           T1   y         rotateLeft(z)          z      x         │
+ * │               /  \       - - - - - - - ->      / \    / \        │
+ * │              T2   x                           T1  T2 T3  T4      │
+ * │                  / \                                             │
+ * │                T3  T4                                            │
+ * └──────────────────────────────────────────────────────────────────┘
  * ```
  */
-export function rotateLeft<K extends Ord, V>(node: Node<K, V>): Node<K, V> {
+ export function rotateLeft<K extends Ord, V>(node: Node<K, V>): Node<K, V> {
     if (node.right === null) {
         throw new Error('Cannot left-rotate a node without a right child')
     }
@@ -153,18 +265,19 @@ export function rotateLeft<K extends Ord, V>(node: Node<K, V>): Node<K, V> {
 }
 
 /**
- * Performs a right rotation on the given node.
+ * Performs a right rotation on the given node. Returns the node that takes the
+ * place of the given node after rotation.
  *
  * ```text
- * ┌────────────────────────────────────────────────────────────────┐
- * │           z                                      y             │
- * │          / \                                   /   \           │
- * │         y   T4      rotateRight(z)            x      z         │
- * │        / \          - - - - - - - - ->      /  \    /  \       │
- * │       x   T3                               T1  T2  T3  T4      │
- * │      / \                                                       │
- * │    T1   T2                                                     │
- * └────────────────────────────────────────────────────────────────┘
+ * ┌──────────────────────────────────────────────────────────────────┐
+ * │ argument -> z                                      y <- return   │
+ * │            / \                                   /   \           │
+ * │           y   T4      rotateRight(z)            x      z         │
+ * │          / \          - - - - - - - - ->      /  \    /  \       │
+ * │         x   T3                               T1  T2  T3  T4      │
+ * │        / \                                                       │
+ * │      T1   T2                                                     │
+ * └──────────────────────────────────────────────────────────────────┘
  * ```
  */
 export function rotateRight<K extends Ord, V>(node: Node<K, V>): Node<K, V> {
@@ -182,96 +295,4 @@ export function rotateRight<K extends Ord, V>(node: Node<K, V>): Node<K, V> {
     updateNodeHeight(L)
 
     return L
-}
-
-/**
- * Inserts the given key an corresponding value into the tree of the given node.
- */
- export function insert<K extends Ord, V>(key: K, val: V, node: Node<K, V> | null): Node<K, V> {
-
-    if (node === null) {
-        return new Node(key, val)
-    }
-
-    switch (scalarCompare(key, node.key)) {
-        case Ordering.LT:
-            node.left = insert(key, val, node.left)
-            break
-
-        case Ordering.GT:
-            node.right = insert(key, val, node.right)
-            break
-    }
-
-    updateNodeHeight(node)
-
-    if (nodeBalance(node) < -1) {
-        switch (scalarCompare(key, node.left!.key)) {
-
-            /*────────────────────────────────────────────────────────────────────────────────────────┐
-            │                                  Left - Left case                                       │
-            ├─────────────────────────────────────────────────────────────────────────────────────────┤
-            │                      z                                      y                           │
-            │                     / \                                   /   \                         │
-            │                    y   T4      Right Rotate (z)          x      z                       │
-            │                   / \          - - - - - - - - ->      /  \    /  \                     │
-            │                  x   T3                               T1  T2  T3  T4                    │
-            │                 / \                                                                     │
-            │               T1   T2                                                                   │
-            └────────────────────────────────────────────────────────────────────────────────────────*/
-            case Ordering.LT:
-                return rotateRight(node)
-
-            /*────────────────────────────────────────────────────────────────────────────────────────┐
-            │                                 Left - Right case                                       │
-            ├─────────────────────────────────────────────────────────────────────────────────────────┤
-            │         z                                  z                                x           │
-            │        / \                               /   \                             /  \         │
-            │       y   T4    Left Rotate (y)         x     T4   Right Rotate(z)       y      z       │
-            │      / \        - - - - - - - - ->     /  \        - - - - - - - ->     / \    / \      │
-            │    T1   x                             y    T3                         T1  T2  T3  T4    │
-            │        / \                           / \                                                │
-            │      T2   T3                       T1   T2                                              │
-            └────────────────────────────────────────────────────────────────────────────────────────*/
-            case Ordering.GT:
-                node.left = rotateLeft(node.left!)
-                return rotateRight(node)
-        }
-    }
-
-    if (nodeBalance(node) > 1) {
-        switch (scalarCompare(key, node.right!.key)) {
-
-            /*────────────────────────────────────────────────────────────────────────────────────────┐
-            │                                  Right - Left case                                      │
-            ├─────────────────────────────────────────────────────────────────────────────────────────┤
-            │      z                                z                                 x               │
-            │     / \                              / \                               /  \             │
-            │   T1   y     Right Rotate (y)      T1   x        Left Rotate(z)      z      y           │
-            │       / \    - - - - - - - - ->       /  \     - - - - - - - ->     / \    / \          │
-            │      x   T4                         T2    y                       T1  T2  T3  T4        │
-            │     / \                                  /  \                                           │
-            │   T2   T3                               T3   T4                                         │
-            └────────────────────────────────────────────────────────────────────────────────────────*/
-            case Ordering.LT:
-                node.right = rotateRight(node.right!)
-                return rotateLeft(node)
-
-            /*────────────────────────────────────────────────────────────────────────────────────────┐
-            │                                 Right - Right case                                      │
-            ├─────────────────────────────────────────────────────────────────────────────────────────┤
-            │                       z                                   y                             │
-            │                      /  \                               /   \                           │
-            │                    T1    y       Left Rotate(z)        z      x                         │
-            │                         /  \     - - - - - - - ->     / \    / \                        │
-            │                       T2    x                        T1  T2 T3  T4                      │
-            │                             / \                                                         │
-            │                           T3   T4                                                       │
-            └────────────────────────────────────────────────────────────────────────────────────────*/
-            case Ordering.GT:
-                return rotateLeft(node)
-        }
-    }
-
-    return node
 }
