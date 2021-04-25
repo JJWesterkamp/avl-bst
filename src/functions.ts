@@ -28,7 +28,10 @@ export function updateNodeHeight(node: Node): void {
 
 /**
  * Returns the given node's balance: the relationship between the heights
- * of its left and right subtrees. Returns zero if the node is `null`.
+ * of its left and right subtrees. Returns a negative number if the node's
+ * left child is the higher height child, or a positive number if the right
+ * child is the higher height child. Returns zero if either the node is `null`
+ * or both its children have equal height.
  */
 export function nodeBalance(node: Node | null): number {
     return node ? nodeHeight(node.right) - nodeHeight(node.left) : 0
