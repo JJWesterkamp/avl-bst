@@ -1,7 +1,24 @@
-import type { GetKey, IAVLTree, Ord } from '../AVLTree'
-import { Node } from './Node'
-import { foldNodesLeft, foldNodesRight, forEach, insert, maxNode, minNode, search } from './functions'
+/**
+ * ------------------------------------------------------------------------------
+ * ## AVLTree class
+ * ------------------------------------------------------------------------------
+ *
+ * This module holds the class implementation of the public API interface
+ * {@link IAVLTree `IAVLTree`}.
+ *
+ * @module Internal - AVLTree
+ */
 
+import type { GetKey, IAVLTree, Ord } from '../AVLTree'
+import { AVLNode as Node } from './AVLNode'
+import { deleteKey, foldNodesLeft, foldNodesRight, forEach, insert, maxNode, minNode, search } from './functions'
+
+/**
+ * The class implementation of the public API interface {@link IAVLTree `IAVLTree`}.
+ *
+ * @typeParam K The key type that is derived from tree values, in order to compare their order.
+ * @typeParam V The type of values that are to be stored in the tree.
+ */
 export class AVLTree<K extends Ord, V> implements IAVLTree<K, V> {
 
     private root: Node<K, V> | null = null
@@ -49,8 +66,14 @@ export class AVLTree<K extends Ord, V> implements IAVLTree<K, V> {
         return isInserted
     }
 
-    public delete(key: K): void {
-        // Todo ...
+    public delete(key: K): boolean {
+        if (this.root === null) {
+            return false
+        }
+
+        const [rootAfterDeletion, isDeleted] = deleteKey(key, this.root)
+        this.root = rootAfterDeletion
+        return isDeleted
     }
 
     private toArray<T>(transformer: (node: Node<K, V>) => T): T[] {

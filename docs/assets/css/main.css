@@ -1852,9 +1852,9 @@
   dl.tsd-comment-tags dt {
     float: left;
     padding: 1px 5px;
-    margin: 0 10px 0 0;
+    margin: 0 10px 5px 0;
     border-radius: 4px;
-    border: 1px solid var(--color-comment-tag);
+    background-color: #f1f1f1;
     color: var(--color-comment-tag);
     font-size: 0.8em;
     font-weight: normal;
@@ -2491,14 +2491,35 @@
   }
 
   .tsd-sources {
+    line-height: 24px;
     font-size: 14px;
     color: var(--color-text-aside);
     margin: 0 0 1em 0;
   }
+
   .tsd-sources a {
-    color: var(--color-text-aside);
-    text-decoration: underline;
+    position: relative;
+    color: var(--color-link);
+    text-decoration: none;
   }
+
+  .tsd-sources a::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: var(--color-link);
+    transform: scaleX(0);
+    transition: transform 150ms ease-out;
+  }
+
+  .tsd-sources a:hover::after {
+    transform: none;
+  }
+
+
   .tsd-sources ul, .tsd-sources p {
     margin: 0 !important;
   }

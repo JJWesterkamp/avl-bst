@@ -1,19 +1,23 @@
-import type { Ord } from '../AVLTree'
-import { Node } from './Node'
+/**
+ * ------------------------------------------------------------------------------
+ * ## AVLTree functions
+ * ------------------------------------------------------------------------------
+ *
+ * The functional recursive algorithms used by the AVLTree class, and
+ * some additional helper functions. These perform outside of the tree
+ * class context, and take nodes to operate on. This makes them reusable
+ * for many more applications.
+ *
+ * While the AVLTree interface only exposes its contained values -- I
+ * consider nodes an implementation detail -- the functions here return
+ * nodes with these values within, so that internally we can easily
+ * traverse subtrees and otherwise operate on them.
+ *
+ * @module Internal - Functions
+ */
 
-// ------------------------------------------------------------------------------
-//      AVLTree functions
-// ------------------------------------------------------------------------------
-//
-//      The functional recursive algorithms used by the AVLTree class, and
-//      some additional helper functions. These perform outside of the tree
-//      class context, and take nodes to operate on. This makes them reusable
-//      for many more applications.
-//
-//      While the AVLTree interface only exposes its contained values -- I
-//      consider nodes an implementation detail -- the functions here return
-//      nodes with these values within, so that internally we can easily
-//      traverse subtrees and otherwise operate on them.
+import type { Ord } from '../AVLTree'
+import { AVLNode as Node } from './AVLNode'
 
 export const enum Ordering {
     LT = -1,
@@ -23,6 +27,7 @@ export const enum Ordering {
 
 /**
  * Returns the height of given node or zero if the node is `null`.
+ * @category Helper
  */
 export function nodeHeight(node: Node | null): number {
     return node?.height ?? 0
@@ -31,6 +36,7 @@ export function nodeHeight(node: Node | null): number {
 /**
  * Updates the given node's height property based on the current heights
  * of its left and right subtrees.
+ * @category Helper
  */
 export function updateNodeHeight(node: Node): void {
     node.height = 1 + Math.max(
@@ -45,6 +51,7 @@ export function updateNodeHeight(node: Node): void {
  * left child is the higher height child, or a positive number if the right
  * child is the higher height child. Returns zero if either the node is `null`
  * or both its children have equal height.
+ * @category Helper
  */
 export function nodeBalance(node: Node | null): number {
     return node ? nodeHeight(node.right) - nodeHeight(node.left) : 0
@@ -52,6 +59,7 @@ export function nodeBalance(node: Node | null): number {
 
 /**
  * Takes two values of type `K extends Orderable` and returns their ordering.
+ * @category Helper
  */
 export function scalarCompare<K extends Ord>(ka: K, kb: K): Ordering {
     return ka < kb ? Ordering.LT :
@@ -59,9 +67,19 @@ export function scalarCompare<K extends Ord>(ka: K, kb: K): Ordering {
 }
 
 /**
+ * Writes the key and value (by reference) from the given `from` node to the given `to` node.
+ * @category Helper
+ */
+export function writeNodeContents<K extends Ord, V>({ from , to }: { from: Node<K, V>; to: Node<K, V> }): void {
+    to.key = from.key
+    to.value = from.value
+}
+
+/**
  * Returns the node within the subtree of given node that ranks lowest.
  * Returns the given node itself if it has no children, or `null`
  * if the given node is itself `null`.
+ * @category Tree recursion
  */
 export function minNode<K extends Ord, V>(node: Node<K, V> | null): Node<K, V> | null {
     return node === null ? null : minNode(node.left) ?? node
@@ -71,6 +89,7 @@ export function minNode<K extends Ord, V>(node: Node<K, V> | null): Node<K, V> |
  * Returns the node within the subtree of given node that ranks highest.
  * Returns the given node itself if it has no children, or `null`
  * if the given node is itself `null`.
+ * @category Tree recursion
  */
 export function maxNode<K extends Ord, V>(node: Node<K, V> | null): Node<K, V> | null {
     return node === null ? null : maxNode(node.right) ?? node
@@ -79,6 +98,7 @@ export function maxNode<K extends Ord, V>(node: Node<K, V> | null): Node<K, V> |
 /**
  * Performs in-order traversal of the given node's subtree, applying the given
  * `fn` to each contained value.
+ * @category Tree recursion
  */
 export function forEach<K extends Ord, V>(node: Node<K, V> | null, fn: (node: Node<K, V>) => void): void {
     if (node === null) {
@@ -92,6 +112,7 @@ export function forEach<K extends Ord, V>(node: Node<K, V> | null, fn: (node: No
 
 /**
  * Folds (reduces) the given node's subtree left-to-right using in-order traversal.
+ * @category Tree recursion
  */
 export function foldNodesLeft<K extends Ord, V, T>(node: Node<K, V> | null, fn: (acc: T, curr: Node<K, V>) => T, seed: T): T {
     if (node === null) {
@@ -105,6 +126,7 @@ export function foldNodesLeft<K extends Ord, V, T>(node: Node<K, V> | null, fn: 
 
 /**
  * Folds (reduces) the given node's subtree right-to-left using reversed in-order traversal.
+ * @category Tree recursion
  */
 export function foldNodesRight<K extends Ord, V, T>(node: Node<K, V> | null, fn: (acc: T, curr: Node<K, V>) => T, seed: T): T {
     if (node === null) {
@@ -118,6 +140,7 @@ export function foldNodesRight<K extends Ord, V, T>(node: Node<K, V> | null, fn:
 
 /**
  * Search a value by a given `searchKey`, matching against keys of nodes.
+ * @category Tree recursion
  */
 export function search<K extends Ord, V>(node: Node<K, V> | null, searchKey: K): V | null {
     if (node === null) {
@@ -143,6 +166,7 @@ export function search<K extends Ord, V>(node: Node<K, V> | null, searchKey: K):
  *   which might also be the given node itself.
  * - index 1 = A boolean indicating whether the new key and value were actually inserted.
  *   This will be `false` if the key was already in the tree prior to insertion.
+ * @category Tree recursion
  */
  export function insert<K extends Ord, V>(key: K, val: V, node: Node<K, V> | null): [Node<K, V>, boolean] {
     if (node === null) {
@@ -176,14 +200,22 @@ export function search<K extends Ord, V>(node: Node<K, V> | null, searchKey: K):
  * Deletes the node by given key from the subtree of given node. Returns the node
  * that takes the place of the given node after deletion and re-balancing, which
  * might also be the given node itself.
+ *
+ * Returns an array of length 2 with at:
+ * - index 0 = the node that takes the place of given node after deletion and re-balancing,
+ *   which might also be the given node itself.
+ * - index 1 = A boolean indicating whether a node was actually deleted.
+ *   This will be `false` if the key was not found in the tree.
+ * @category Tree recursion
  */
-export function deleteKey<K extends Ord, V>(key: K, node: Node<K, V>): Node<K, V> {
-    return node // Todo ...
+export function deleteKey<K extends Ord, V>(key: K, node: Node<K, V> | null): [Node<K, V> | null, boolean] {
+    return [node, false] // Todo ...
 }
 
 /**
  * Balances the given node if it is unbalanced. Returns the node that takes the place of the
  * given node after balancing, which is the given node itself if no balancing is required.
+ * @category Helper
  */
 function balanceNode<K extends Ord, V>(node: Node<K, V>): Node<K, V> {
     const zBalance = nodeBalance(node)
@@ -270,6 +302,7 @@ function balanceNode<K extends Ord, V>(node: Node<K, V>): Node<K, V> {
  * │                T3  T4                                            │
  * └──────────────────────────────────────────────────────────────────┘
  * ```
+ * @category Helper
  */
  export function rotateLeft<K extends Ord, V>(node: Node<K, V>): Node<K, V> {
     if (node.right === null) {
@@ -303,6 +336,7 @@ function balanceNode<K extends Ord, V>(node: Node<K, V>): Node<K, V> {
  * │      T1   T2                                                     │
  * └──────────────────────────────────────────────────────────────────┘
  * ```
+ * @category Helper
  */
 export function rotateRight<K extends Ord, V>(node: Node<K, V>): Node<K, V> {
     if (node.left === null) {

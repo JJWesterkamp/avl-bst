@@ -1,0 +1,909 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Internal - Functions | @jjwesterkamp/avl-tree</title>
+	<meta name="description" content="Documentation for @jjwesterkamp/avl-tree">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@jjwesterkamp/avl-tree</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../modules.html">@jjwesterkamp/avl-tree</a>
+				</li>
+				<li>
+					<a href="internal___functions.html">Internal - Functions</a>
+				</li>
+			</ul>
+			<h1>Module Internal - Functions</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<hr>
+						<a href="#avltree-functions" id="avltree-functions" style="color: inherit; text-decoration: none;">
+							<h2>AVLTree functions</h2>
+						</a>
+						<hr>
+					</div>
+					<p>The functional recursive algorithms used by the AVLTree class, and
+						some additional helper functions. These perform outside of the tree
+						class context, and take nodes to operate on. This makes them reusable
+					for many more applications.</p>
+					<p>While the AVLTree interface only exposes its contained values -- I
+						consider nodes an implementation detail -- the functions here return
+						nodes with these values within, so that internally we can easily
+					traverse subtrees and otherwise operate on them.</p>
+				</div>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Enumerations</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-enum tsd-parent-kind-module"><a href="../enums/internal___functions.ordering.html" class="tsd-kind-icon">Ordering</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Tree recursion Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="internal___functions.html#deletekey" class="tsd-kind-icon">delete<wbr>Key</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="internal___functions.html#foldnodesleft" class="tsd-kind-icon">fold<wbr>Nodes<wbr>Left</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="internal___functions.html#foldnodesright" class="tsd-kind-icon">fold<wbr>Nodes<wbr>Right</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="internal___functions.html#foreach" class="tsd-kind-icon">for<wbr>Each</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="internal___functions.html#insert" class="tsd-kind-icon">insert</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="internal___functions.html#maxnode" class="tsd-kind-icon">max<wbr>Node</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="internal___functions.html#minnode" class="tsd-kind-icon">min<wbr>Node</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="internal___functions.html#search" class="tsd-kind-icon">search</a></li>
+							</ul>
+							<h3>Helper Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="internal___functions.html#nodebalance" class="tsd-kind-icon">node<wbr>Balance</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="internal___functions.html#nodeheight" class="tsd-kind-icon">node<wbr>Height</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="internal___functions.html#rotateleft" class="tsd-kind-icon">rotate<wbr>Left</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="internal___functions.html#rotateright" class="tsd-kind-icon">rotate<wbr>Right</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="internal___functions.html#scalarcompare" class="tsd-kind-icon">scalar<wbr>Compare</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="internal___functions.html#updatenodeheight" class="tsd-kind-icon">update<wbr>Node<wbr>Height</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="internal___functions.html#writenodecontents" class="tsd-kind-icon">write<wbr>Node<wbr>Contents</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Tree recursion Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="deletekey" class="tsd-anchor"></a>
+					<h3>delete<wbr>Key</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Key&lt;K, V&gt;<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span>, node<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/JJWesterkamp/avl-tree/blob/641fcf2/src/functions.ts#L211">src/functions.ts:211</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Deletes the node by given key from the subtree of given node. Returns the node
+										that takes the place of the given node after deletion and re-balancing, which
+									might also be the given node itself.</p>
+								</div>
+								<p>Returns an array of length 2 with at:</p>
+								<ul>
+									<li>index 0 = the node that takes the place of given node after deletion and re-balancing,
+									which might also be the given node itself.</li>
+									<li>index 1 = A boolean indicating whether a node was actually deleted.
+									This will be <code>false</code> if the key was not found in the tree.</li>
+								</ul>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>K<span class="tsd-signature-symbol">: </span><a href="public_api.html#ord" class="tsd-signature-type" data-tsd-kind="Type alias">Ord</a></h4>
+								</li>
+								<li>
+									<h4>V</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>key: <span class="tsd-signature-type">K</span></h5>
+								</li>
+								<li>
+									<h5>node: <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="foldnodesleft" class="tsd-anchor"></a>
+					<h3>fold<wbr>Nodes<wbr>Left</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">fold<wbr>Nodes<wbr>Left&lt;K, V, T&gt;<span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>acc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, curr<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">T</span>, seed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/JJWesterkamp/avl-tree/blob/641fcf2/src/functions.ts#L117">src/functions.ts:117</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Folds (reduces) the given node&#39;s subtree left-to-right using in-order traversal.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>K<span class="tsd-signature-symbol">: </span><a href="public_api.html#ord" class="tsd-signature-type" data-tsd-kind="Type alias">Ord</a></h4>
+								</li>
+								<li>
+									<h4>V</h4>
+								</li>
+								<li>
+									<h4>T</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>node: <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								</li>
+								<li>
+									<h5>fn: <span class="tsd-signature-symbol">(</span>acc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, curr<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">T</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>acc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, curr<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>acc: <span class="tsd-signature-type">T</span></h5>
+														</li>
+														<li>
+															<h5>curr: <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<h5>seed: <span class="tsd-signature-type">T</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="foldnodesright" class="tsd-anchor"></a>
+					<h3>fold<wbr>Nodes<wbr>Right</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">fold<wbr>Nodes<wbr>Right&lt;K, V, T&gt;<span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>acc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, curr<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">T</span>, seed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/JJWesterkamp/avl-tree/blob/641fcf2/src/functions.ts#L131">src/functions.ts:131</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Folds (reduces) the given node&#39;s subtree right-to-left using reversed in-order traversal.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>K<span class="tsd-signature-symbol">: </span><a href="public_api.html#ord" class="tsd-signature-type" data-tsd-kind="Type alias">Ord</a></h4>
+								</li>
+								<li>
+									<h4>V</h4>
+								</li>
+								<li>
+									<h4>T</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>node: <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								</li>
+								<li>
+									<h5>fn: <span class="tsd-signature-symbol">(</span>acc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, curr<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">T</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>acc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, curr<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>acc: <span class="tsd-signature-type">T</span></h5>
+														</li>
+														<li>
+															<h5>curr: <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<h5>seed: <span class="tsd-signature-type">T</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="foreach" class="tsd-anchor"></a>
+					<h3>for<wbr>Each</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">for<wbr>Each&lt;K, V&gt;<span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/JJWesterkamp/avl-tree/blob/641fcf2/src/functions.ts#L103">src/functions.ts:103</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Performs in-order traversal of the given node&#39;s subtree, applying the given
+									<code>fn</code> to each contained value.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>K<span class="tsd-signature-symbol">: </span><a href="public_api.html#ord" class="tsd-signature-type" data-tsd-kind="Type alias">Ord</a></h4>
+								</li>
+								<li>
+									<h4>V</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>node: <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								</li>
+								<li>
+									<h5>fn: <span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>node: <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="insert" class="tsd-anchor"></a>
+					<h3>insert</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">insert&lt;K, V&gt;<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span>, val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">V</span>, node<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/JJWesterkamp/avl-tree/blob/641fcf2/src/functions.ts#L171">src/functions.ts:171</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Inserts the given key an corresponding value into the sub-tree of the given node.
+									Returns an array of length 2 with at:</p>
+									<ul>
+										<li>index 0 = the node that takes the place of given node after insertion and re-balancing,
+										which might also be the given node itself.</li>
+										<li>index 1 = A boolean indicating whether the new key and value were actually inserted.
+										This will be <code>false</code> if the key was already in the tree prior to insertion.</li>
+									</ul>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>K<span class="tsd-signature-symbol">: </span><a href="public_api.html#ord" class="tsd-signature-type" data-tsd-kind="Type alias">Ord</a></h4>
+								</li>
+								<li>
+									<h4>V</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>key: <span class="tsd-signature-type">K</span></h5>
+								</li>
+								<li>
+									<h5>val: <span class="tsd-signature-type">V</span></h5>
+								</li>
+								<li>
+									<h5>node: <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="maxnode" class="tsd-anchor"></a>
+					<h3>max<wbr>Node</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">max<wbr>Node&lt;K, V&gt;<span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/JJWesterkamp/avl-tree/blob/641fcf2/src/functions.ts#L94">src/functions.ts:94</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the node within the subtree of given node that ranks highest.
+										Returns the given node itself if it has no children, or <code>null</code>
+									if the given node is itself <code>null</code>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>K<span class="tsd-signature-symbol">: </span><a href="public_api.html#ord" class="tsd-signature-type" data-tsd-kind="Type alias">Ord</a></h4>
+								</li>
+								<li>
+									<h4>V</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>node: <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="minnode" class="tsd-anchor"></a>
+					<h3>min<wbr>Node</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">min<wbr>Node&lt;K, V&gt;<span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/JJWesterkamp/avl-tree/blob/641fcf2/src/functions.ts#L84">src/functions.ts:84</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the node within the subtree of given node that ranks lowest.
+										Returns the given node itself if it has no children, or <code>null</code>
+									if the given node is itself <code>null</code>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>K<span class="tsd-signature-symbol">: </span><a href="public_api.html#ord" class="tsd-signature-type" data-tsd-kind="Type alias">Ord</a></h4>
+								</li>
+								<li>
+									<h4>V</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>node: <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="search" class="tsd-anchor"></a>
+					<h3>search</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">search&lt;K, V&gt;<span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, searchKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/JJWesterkamp/avl-tree/blob/641fcf2/src/functions.ts#L145">src/functions.ts:145</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Search a value by a given <code>searchKey</code>, matching against keys of nodes.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>K<span class="tsd-signature-symbol">: </span><a href="public_api.html#ord" class="tsd-signature-type" data-tsd-kind="Type alias">Ord</a></h4>
+								</li>
+								<li>
+									<h4>V</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>node: <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								</li>
+								<li>
+									<h5>searchKey: <span class="tsd-signature-type">K</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">V</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Helper Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="nodebalance" class="tsd-anchor"></a>
+					<h3>node<wbr>Balance</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">node<wbr>Balance<span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/JJWesterkamp/avl-tree/blob/641fcf2/src/functions.ts#L56">src/functions.ts:56</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the given node&#39;s balance: the relationship between the heights
+										of its left and right subtrees. Returns a negative number if the node&#39;s
+										left child is the higher height child, or a positive number if the right
+										child is the higher height child. Returns zero if either the node is <code>null</code>
+									or both its children have equal height.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>node: <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="nodeheight" class="tsd-anchor"></a>
+					<h3>node<wbr>Height</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">node<wbr>Height<span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/JJWesterkamp/avl-tree/blob/641fcf2/src/functions.ts#L32">src/functions.ts:32</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the height of given node or zero if the node is <code>null</code>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>node: <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="rotateleft" class="tsd-anchor"></a>
+					<h3>rotate<wbr>Left</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">rotate<wbr>Left&lt;K, V&gt;<span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/JJWesterkamp/avl-tree/blob/641fcf2/src/functions.ts#L335">src/functions.ts:335</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Performs a left rotation on the given node. Returns the node that takes the
+									place of the given node after rotation.</p>
+								</div>
+								<pre><code class="language-text">┌──────────────────────────────────────────────────────────────────┐
+│ argument -&gt; z                                      y &lt;- return   │
+│            /  \                                  /   \           │
+│           T1   y         rotateLeft(z)          z      x         │
+│               /  \       - - - - - - - -&gt;      / \    / \        │
+│              T2   x                           T1  T2 T3  T4      │
+│                  / \                                             │
+│                T3  T4                                            │
+└──────────────────────────────────────────────────────────────────┘
+</code></pre>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>K<span class="tsd-signature-symbol">: </span><a href="public_api.html#ord" class="tsd-signature-type" data-tsd-kind="Type alias">Ord</a></h4>
+								</li>
+								<li>
+									<h4>V</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>node: <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="rotateright" class="tsd-anchor"></a>
+					<h3>rotate<wbr>Right</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">rotate<wbr>Right&lt;K, V&gt;<span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/JJWesterkamp/avl-tree/blob/641fcf2/src/functions.ts#L369">src/functions.ts:369</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Performs a right rotation on the given node. Returns the node that takes the
+									place of the given node after rotation.</p>
+								</div>
+								<pre><code class="language-text">┌──────────────────────────────────────────────────────────────────┐
+│ argument -&gt; z                                      y &lt;- return   │
+│            / \                                   /   \           │
+│           y   T4      rotateRight(z)            x      z         │
+│          / \          - - - - - - - - -&gt;      /  \    /  \       │
+│         x   T3                               T1  T2  T3  T4      │
+│        / \                                                       │
+│      T1   T2                                                     │
+└──────────────────────────────────────────────────────────────────┘
+</code></pre>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>K<span class="tsd-signature-symbol">: </span><a href="public_api.html#ord" class="tsd-signature-type" data-tsd-kind="Type alias">Ord</a></h4>
+								</li>
+								<li>
+									<h4>V</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>node: <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="scalarcompare" class="tsd-anchor"></a>
+					<h3>scalar<wbr>Compare</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">scalar<wbr>Compare&lt;K&gt;<span class="tsd-signature-symbol">(</span>ka<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span>, kb<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../enums/internal___functions.ordering.html" class="tsd-signature-type" data-tsd-kind="Enumeration">Ordering</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/JJWesterkamp/avl-tree/blob/641fcf2/src/functions.ts#L64">src/functions.ts:64</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Takes two values of type <code>K extends Orderable</code> and returns their ordering.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>K<span class="tsd-signature-symbol">: </span><a href="public_api.html#ord" class="tsd-signature-type" data-tsd-kind="Type alias">Ord</a></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>ka: <span class="tsd-signature-type">K</span></h5>
+								</li>
+								<li>
+									<h5>kb: <span class="tsd-signature-type">K</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../enums/internal___functions.ordering.html" class="tsd-signature-type" data-tsd-kind="Enumeration">Ordering</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="updatenodeheight" class="tsd-anchor"></a>
+					<h3>update<wbr>Node<wbr>Height</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Node<wbr>Height<span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/JJWesterkamp/avl-tree/blob/641fcf2/src/functions.ts#L41">src/functions.ts:41</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Updates the given node&#39;s height property based on the current heights
+									of its left and right subtrees.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>node: <a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="writenodecontents" class="tsd-anchor"></a>
+					<h3>write<wbr>Node<wbr>Contents</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">write<wbr>Node<wbr>Contents&lt;K, V&gt;<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>from<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>to<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/JJWesterkamp/avl-tree/blob/641fcf2/src/functions.ts#L73">src/functions.ts:73</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Writes the key and value (by reference) from the given <code>from</code> node to the given <code>to</code> node.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>K<span class="tsd-signature-symbol">: </span><a href="public_api.html#ord" class="tsd-signature-type" data-tsd-kind="Type alias">Ord</a></h4>
+								</li>
+								<li>
+									<h4>V</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>from<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>to<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> }</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter">
+											<h5>from<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>to<span class="tsd-signature-symbol">: </span><a href="../classes/internal___avlnode.avlnode.html" class="tsd-signature-type" data-tsd-kind="Class">AVLNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></h5>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="../modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="internal___avlnode.html">Internal -<wbr> AVLNode</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="internal___avltree.html">Internal -<wbr> AVLTree</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="internal___functions.html">Internal -<wbr> <wbr>Functions</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="public_api.html">Public API</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum tsd-parent-kind-module">
+						<a href="../enums/internal___functions.ordering.html" class="tsd-kind-icon">Ordering</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="internal___functions.html#deletekey" class="tsd-kind-icon">delete<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="internal___functions.html#foldnodesleft" class="tsd-kind-icon">fold<wbr>Nodes<wbr>Left</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="internal___functions.html#foldnodesright" class="tsd-kind-icon">fold<wbr>Nodes<wbr>Right</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="internal___functions.html#foreach" class="tsd-kind-icon">for<wbr>Each</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="internal___functions.html#insert" class="tsd-kind-icon">insert</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="internal___functions.html#maxnode" class="tsd-kind-icon">max<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="internal___functions.html#minnode" class="tsd-kind-icon">min<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="internal___functions.html#nodebalance" class="tsd-kind-icon">node<wbr>Balance</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="internal___functions.html#nodeheight" class="tsd-kind-icon">node<wbr>Height</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="internal___functions.html#rotateleft" class="tsd-kind-icon">rotate<wbr>Left</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="internal___functions.html#rotateright" class="tsd-kind-icon">rotate<wbr>Right</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="internal___functions.html#scalarcompare" class="tsd-kind-icon">scalar<wbr>Compare</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="internal___functions.html#search" class="tsd-kind-icon">search</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="internal___functions.html#updatenodeheight" class="tsd-kind-icon">update<wbr>Node<wbr>Height</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="internal___functions.html#writenodecontents" class="tsd-kind-icon">write<wbr>Node<wbr>Contents</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer>
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

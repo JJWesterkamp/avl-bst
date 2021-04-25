@@ -1,4 +1,17 @@
 /**
+ * ------------------------------------------------------------------------------
+ * ## AVLTree public API
+ * ------------------------------------------------------------------------------
+ *
+ * The public API declares all the types that are exposed through regular usage
+ * of this package. All types and interfaces defined here can be used in client
+ * code. The default export of the package is {@link AVLTreeFactories `AVLTreeFactories`},
+ * a plain object that contains factory methods for AVL tree instances.
+ *
+ * @module Public API
+ */
+
+/**
  * The native orderable types whose relative order can be compared with `>` and `<`.
  */
 export type Ord = string | number
@@ -12,7 +25,7 @@ export type Ord = string | number
 export type GetKey<K extends Ord = Ord, V = unknown> = (element: V) => K
 
 /**
- * The creation methods for AVL tree instances.
+ * The creation methods for {@link IAVLTree `IAVLTree`} instances.
  */
 export interface AVLTreeFactories {
 
