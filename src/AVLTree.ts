@@ -43,8 +43,10 @@ export class AVLTree<K extends Ord, V> implements IAVLTree<K, V> {
         return this.toArray((node) => node.value)
     }
 
-    public insert(value: V): void {
-        this.root = insert(this.getKey(value), value, this.root)
+    public insert(value: V): boolean {
+        const [rootAfterInsertion, isInserted] = insert(this.getKey(value), value, this.root)
+        this.root = rootAfterInsertion
+        return isInserted
     }
 
     public delete(key: K): void {

@@ -129,8 +129,11 @@ export interface IAVLTree<K extends Ord, V> {
 
 	/**
 	 * Inserts a new value into the tree.
+	 * @return A boolean that indicates whether a node was inserted:
+	 * 		   `false` if the key derived from given value is already
+	 *         in the tree.
 	 */
-	insert(value: V): void
+	insert(value: V): boolean
 
 	/**
 	 * Deletes the node with given key from the tree.

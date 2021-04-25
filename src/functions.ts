@@ -122,30 +122,38 @@ export function search<K extends Ord, V>(node: Node<K, V> | null, searchKey: K):
 
 /**
  * Inserts the given key an corresponding value into the sub-tree of the given node.
- * Returns the node that takes the place of given node after insertion and rebalancing,
- * which might also be the given node itself.
+ * Returns an array of length 2 with at:
+ * - index 0 = the node that takes the place of given node after insertion and rebalancing,
+ *   which might also be the given node itself.
+ * - index 1 = A boolean indicating whether the new key and value were actually inserted.
+ *   This will be `false` if the key was already in the tree prior to insertion.
  */
- export function insert<K extends Ord, V>(key: K, val: V, node: Node<K, V> | null): Node<K, V> {
+ export function insert<K extends Ord, V>(key: K, val: V, node: Node<K, V> | null): [Node<K, V>, boolean] {
     if (node === null) {
-        return new Node(key, val)
+        return [new Node(key, val), true]
     }
 
+    let isInserted: boolean
+
     switch (scalarCompare(key, node.key)) {
-        // Currently skips silently when the key already exists.
         case Ordering.EQ:
-            return node
+            return [node, false]
 
         case Ordering.LT:
-            node.left = insert(key, val, node.left)
+            [node.left, isInserted] = insert(key, val, node.left)
             break
 
         case Ordering.GT:
-            node.right = insert(key, val, node.right)
+            [node.right, isInserted] = insert(key, val, node.right)
             break
     }
 
+    if (! isInserted) {
+        return [node, false]
+    }
+
     updateNodeHeight(node)
-    return balanceNode(node)
+    return [balanceNode(node), true]
 }
 
 /**
@@ -154,7 +162,7 @@ export function search<K extends Ord, V>(node: Node<K, V> | null, searchKey: K):
  * might also be the given node itself.
  */
 export function deleteKey<K extends Ord, V>(key: K, node: Node<K, V>): Node<K, V> {
-
+    return node // Todo ...
 }
 
 /**
