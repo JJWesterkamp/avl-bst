@@ -222,7 +222,42 @@ export function search<K extends Ord, V>(node: Node<K, V> | null, searchKey: K):
  * @category Tree recursion
  */
 export function deleteKey<K extends Ord, V>(key: K, node: Node<K, V> | null): [Node<K, V> | null, boolean] {
-    return [node, false] // Todo ...
+    if (node === null) {
+        return [null, false]
+    }
+
+    let isDeleted: boolean
+
+    switch (scalarCompare(key, node.key)) {
+        case Ordering.LT:
+            [node.left, isDeleted] = deleteKey(key, node.left)
+            break
+
+        case Ordering.GT:
+            [node.right, isDeleted] = deleteKey(key, node.right)
+            break
+
+        case Ordering.EQ:
+            const hasLeft  = node.left !== null
+            const hasRight = node.right !== null
+
+            // Zero child case - can return immediately
+            if (neither(hasLeft, hasRight)) {
+                return [null, true]
+            }
+
+            // One child case - can return immediately
+            if (either(hasLeft, hasRight)) {
+                return [node.left ?? node.right, true]
+            }
+            // Two child case - must re-balance afterwards
+            const successor = minNode(node.right)!
+            writeNodeContents({ from: successor, to: node });
+            [node.right, isDeleted] = deleteKey(successor.key, node.right)
+    }
+
+    updateNodeHeight(node)
+    return [balanceNode(node), isDeleted]
 }
 
 /**
@@ -367,4 +402,12 @@ export function rotateRight<K extends Ord, V>(node: Node<K, V>): Node<K, V> {
     updateNodeHeight(L)
 
     return L
+}
+
+function either(a: boolean, b: boolean): boolean {
+    return a ? !b : b
+}
+
+function neither(a: boolean, b: boolean): boolean {
+    return ! a && ! b
 }
