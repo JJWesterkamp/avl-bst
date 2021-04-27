@@ -40,7 +40,8 @@ Initial version featuring the basic BST operations:
 [gh]: https://github.com/JJWesterkamp/avl-bst
 
 
-[Unreleased]: https://github.com/JJWesterkamp/avl-bst/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/JJWesterkamp/avl-bst/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/JJWesterkamp/avl-bst/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/JJWesterkamp/avl-bst/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/JJWesterkamp/avl-bst/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/JJWesterkamp/avl-bst/tree/v0.1.0
