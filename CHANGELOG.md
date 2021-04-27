@@ -5,6 +5,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] (2021-04-27)
+
+### Fixed
+
+- Added dedicated module entry point for CommonJS environments.
+
+### Added
+
+- Added `"exports"` definitions in package.json.
+- Added UMD bundle pointers for CDN services.
+
 ## [0.2.0] (2021-04-25)
 
 ### Added

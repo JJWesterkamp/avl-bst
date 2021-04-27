@@ -15,17 +15,28 @@
     "BST"
   ],
   "license": "MIT",
-  "main": "./cjs/index.js",
+  "main": "./cjs/require.js",
   "module": "./esm/index.js",
   "types": "./avl-bst.d.ts",
+  "exports": {
+    ".": {
+      "require": "./cjs/require.js",
+      "import": "./esm/index.js",
+      "default": "./esm/index.js"
+    },
+    "./esm/": "./esm/",
+    "./cjs/": "./cjs/"
+  },
+  "unpkg": "umd/avl-bst.min.js",
+  "jsdelivr": "umd/avl-bst.min.js",
   "scripts": {
-    "clean:dist": "rm -rf cjs esm umd",
+    "clean:build": "rm -rf cjs esm umd",
     "clean:docs": "rm -rf docs",
     "clean:coverage": "rm -rf coverage",
     "dev": "run-p \"build:** -- --watch\"",
-    "build": "npm run clean:dist && run-p build:**",
-    "build:cjs": "tsc --sourceMap false",
-    "build:esm": "tsc -m es6 --outDir esm --sourceMap false",
+    "build": "npm run clean:build && run-p build:**",
+    "build:cjs": "tsc --outDir cjs --declaration true --sourceMap false -m CommonJS",
+    "build:esm": "tsc --outDir esm --declaration true --sourceMap false -m es2015",
     "build:umd": "webpack",
     "docs": "typedoc",
     "bump": "npx yarn version --new-version",
