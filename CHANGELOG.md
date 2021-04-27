@@ -5,6 +5,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Replaced deprecated [Subpath folder mappings](https://nodejs.org/api/packages.html#packages_subpath_folder_mappings)
+with [Subpath patterns](https://nodejs.org/api/packages.html#packages_subpath_patterns) in package.json.
+
 ## [0.2.1] (2021-04-27)
 
 ### Fixed

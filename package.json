@@ -24,8 +24,8 @@
       "import": "./esm/index.js",
       "default": "./esm/index.js"
     },
-    "./esm/": "./esm/",
-    "./cjs/": "./cjs/"
+    "./esm/*": "./esm/*.js",
+    "./cjs/*": "./cjs/*.js"
   },
   "unpkg": "umd/avl-bst.min.js",
   "jsdelivr": "umd/avl-bst.min.js",
