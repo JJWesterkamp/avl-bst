@@ -1,6 +1,7 @@
 {
   "name": "avl-bst",
   "version": "0.2.1",
+  "license": "MIT",
   "author": "Jeffrey Westerkamp",
   "repository": "https://github.com/JJWesterkamp/avl-bst",
   "homepage": "https://jjwesterkamp.github.io/avl-bst/",
@@ -14,7 +15,7 @@
     "AVL",
     "BST"
   ],
-  "license": "MIT",
+  "sideEffects": false,
   "main": "./cjs/require.js",
   "module": "./esm/index.js",
   "types": "./avl-bst.d.ts",
